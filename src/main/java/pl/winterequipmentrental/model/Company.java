@@ -15,7 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Company implements Serializable {
-    @Column(name = "nazwa_firmy", length = 50)
+    @Column(name = "nazwa_firmy", length = 100)
     private String name;
 
     @Column(name = "nip", length = 10)
