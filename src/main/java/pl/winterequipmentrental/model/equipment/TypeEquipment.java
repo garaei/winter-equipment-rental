@@ -3,7 +3,6 @@ package pl.winterequipmentrental.model.equipment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,11 +18,20 @@ public class TypeEquipment implements Serializable {
     private long id;
 
     @Setter
-    @Column(name = "nazwa", length = 50)
+    @Column(name = "nazwa", nullable = false, unique = true, length = 50)
     private String name;
 
     @Setter
     @Lob
     @Column(name = "opis")
     private String description;
+
+    public TypeEquipment(String name) {
+        this.name = name;
+    }
+
+    public TypeEquipment(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

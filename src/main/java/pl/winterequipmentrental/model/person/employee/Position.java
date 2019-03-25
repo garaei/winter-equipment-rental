@@ -1,4 +1,4 @@
-package pl.winterequipmentrental.model.employee;
+package pl.winterequipmentrental.model.person.employee;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,15 +10,14 @@ import java.io.Serializable;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Typy_umow")
-public class TypeContract implements Serializable {
+@Table(name = "Stanowiska")
+public class Position implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_typ_umowy")
     private long id;
 
     @Setter
-    @Column(name = "nazwa", nullable = false, length = 40, unique = true)
+    @Column(name = "nazwa", nullable = false, length = 50, unique = true)
     private String name;
 
     @Setter
@@ -26,11 +25,11 @@ public class TypeContract implements Serializable {
     @Column(name = "opis")
     private String description;
 
-    public TypeContract(String name) {
+    public Position(String name) {
         this.name = name;
     }
 
-    public TypeContract(String name, String description) {
+    public Position(String name, String description) {
         this.name = name;
         this.description = description;
     }

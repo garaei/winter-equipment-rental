@@ -1,4 +1,4 @@
-package pl.winterequipmentrental.model.employee;
+package pl.winterequipmentrental.model.person.employee;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

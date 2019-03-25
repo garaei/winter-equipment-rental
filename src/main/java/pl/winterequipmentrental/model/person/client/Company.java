@@ -1,4 +1,4 @@
-package pl.winterequipmentrental.model;
+package pl.winterequipmentrental.model.person.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

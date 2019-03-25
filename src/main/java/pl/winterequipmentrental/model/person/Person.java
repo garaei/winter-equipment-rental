@@ -1,4 +1,4 @@
-package pl.winterequipmentrental.model;
+package pl.winterequipmentrental.model.person;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +26,4 @@ public class Person implements Serializable {
 
     @Column(name = "nr_dowodu", nullable = false, length = 10, unique = true)
     private String IDNumber;
-
-    @Column(name = "telefon", length = 9)
-    private String phoneNumber;
 }

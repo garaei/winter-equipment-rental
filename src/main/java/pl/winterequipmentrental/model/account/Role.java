@@ -3,7 +3,6 @@ package pl.winterequipmentrental.model.account;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,7 +22,7 @@ public class Role implements Serializable {
     private String name;
 
     @Setter
-    @Column(name = "nazwa")
+    @Column(name = "opis")
     private String description;
 
     public Role(String name) {

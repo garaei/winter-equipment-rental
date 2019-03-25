@@ -1,17 +1,17 @@
-package pl.winterequipmentrental.model.employee;
+package pl.winterequipmentrental.model.person.employee;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.winterequipmentrental.model.Person;
+import pl.winterequipmentrental.model.person.Person;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Pracownicy")
 @Getter
 @NoArgsConstructor
+@Table(name = "Pracownicy")
 public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,3 +36,4 @@ public class Employee implements Serializable {
         this.person = person;
     }
 }
+
