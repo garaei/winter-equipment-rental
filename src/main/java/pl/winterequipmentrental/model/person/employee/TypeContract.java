@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,6 +26,10 @@ public class TypeContract implements Serializable {
     @Lob
     @Column(name = "opis")
     private String description;
+
+    @Setter
+    @OneToMany(mappedBy = "typeContract")
+    private List<Contract> contracts;
 
     public TypeContract(String name) {
         this.name = name;

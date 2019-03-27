@@ -1,4 +1,4 @@
-package pl.winterequipmentrental.model;
+package pl.winterequipmentrental.model.loan;
 
 
 import lombok.Getter;
@@ -42,5 +42,5 @@ public class LoanItem implements Serializable {
 }
 
 
-// TODO Change to Builder pattern
+
 

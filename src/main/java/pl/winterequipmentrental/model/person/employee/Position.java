@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,6 +25,10 @@ public class Position implements Serializable {
     @Lob
     @Column(name = "opis")
     private String description;
+
+    @Setter
+    @OneToMany(mappedBy = "position")
+    private Set<Employee> employees;
 
     public Position(String name) {
         this.name = name;

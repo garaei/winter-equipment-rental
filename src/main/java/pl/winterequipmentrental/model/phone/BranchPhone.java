@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Getter
 @NoArgsConstructor
 @Table(name = "Telefony_filii")
-public class BranchPhone extends Telephon {
+public class BranchPhone extends Telephone {
     @Setter
     @Column(name = "nr_wewnetrzny_filii", nullable = false, length = 20)
     private String extensionBranch;

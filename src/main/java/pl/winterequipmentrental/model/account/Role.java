@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,6 +25,13 @@ public class Role implements Serializable {
     @Setter
     @Column(name = "opis")
     private String description;
+
+    @Setter
+    @ManyToMany
+    @JoinTable(name = "Users_roles",
+        joinColumns = {@JoinColumn(name = "role_id")},
+        inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private Set<User> users;
 
     public Role(String name) {
         this.name = name;

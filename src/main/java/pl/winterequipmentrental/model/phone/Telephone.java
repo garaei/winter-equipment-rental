@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Telephon implements Serializable {
+public abstract class Telephone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id_telefon")
@@ -21,7 +21,7 @@ public class Telephon implements Serializable {
     @Column(name = "numer", nullable = false, length = 9, unique = true)
     private String numberPhone;
 
-    public Telephon(String numberPhone) {
+    public Telephone(String numberPhone) {
         this.numberPhone = numberPhone;
     }
 }

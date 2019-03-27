@@ -10,5 +10,5 @@ import javax.persistence.Table;
 @Getter
 @NoArgsConstructor
 @Table(name = "Telefony_pracownikow")
-public class EmployeePhone extends Telephon {
+public class EmployeePhone extends Telephone {
 }

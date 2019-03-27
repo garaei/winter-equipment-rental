@@ -22,6 +22,16 @@ public class Contract implements Serializable {
     @Column(name = "wynagrodzenie", precision = 6, scale = 2)
     private BigDecimal salary;
 
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "type_contract_id")
+    private TypeContract typeContract;
+
+    @Setter
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
     public Contract(BigDecimal salary) {
         this.salary = salary;
     }

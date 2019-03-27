@@ -3,6 +3,7 @@ package pl.winterequipmentrental.model.person.employee;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.winterequipmentrental.model.account.User;
 import pl.winterequipmentrental.model.person.Person;
 
 import javax.persistence.*;
@@ -29,6 +30,19 @@ public class Employee implements Serializable {
     @Setter
     @Embedded
     private Person person;
+
+    @Setter
+    @OneToOne(mappedBy = "employee")
+    private User user;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "position_id")
+    private Position position;
+
+    @Setter
+    @OneToOne(mappedBy = "employee")
+    private Contract contract;
 
     public Employee(String pesel, String email, Person person) {
         this.pesel = pesel;
