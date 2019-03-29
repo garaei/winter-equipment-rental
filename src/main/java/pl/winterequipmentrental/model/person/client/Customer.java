@@ -3,10 +3,12 @@ package pl.winterequipmentrental.model.person.client;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.winterequipmentrental.model.address.Address;
 import pl.winterequipmentrental.model.person.Person;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "Klienci")
@@ -37,6 +39,19 @@ public class Customer implements Serializable {
     @Setter
     @Embedded
     private Company company;
+
+    @Setter
+    @Column(name = "id_address", insertable = false, updatable = false)
+    private long addressId;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "id_address")
+    private Address address;
+
+    @Setter
+    @ManyToOne
+    private List<Address> addresses;
 
     public Customer(String email, Person person, Company company) {
         this.email = email;

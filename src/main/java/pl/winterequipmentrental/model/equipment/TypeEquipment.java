@@ -3,6 +3,7 @@ package pl.winterequipmentrental.model.equipment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.winterequipmentrental.model.additional.PriceList;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,6 +26,15 @@ public class TypeEquipment implements Serializable {
     @Lob
     @Column(name = "opis")
     private String description;
+
+    @Setter
+    @Column(name = "id_price", insertable = false, updatable = false)
+    private long priceId;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "id_price")
+    private PriceList priceList;
 
     public TypeEquipment(String name) {
         this.name = name;

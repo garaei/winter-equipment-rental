@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.winterequipmentrental.model.branch.Branch;
+import pl.winterequipmentrental.model.person.client.Customer;
 import pl.winterequipmentrental.model.person.employee.Employee;
 
 import javax.persistence.*;
@@ -62,6 +63,10 @@ public class Address implements Serializable {
     @OneToOne(mappedBy = "address")
     private Branch branch;
 
+    @Setter
+    @OneToMany(mappedBy = "address")
+    private List<Customer> customers;
+
     public Address(String city, String locality, String street, String zipCode, String buildingNumber, String apartmentNumber) {
         this.city = city;
         this.locality = locality;
@@ -75,5 +80,11 @@ public class Address implements Serializable {
         if (employees == null)
             employees = new ArrayList<>();
         employees.add(employee);
+    }
+
+    public void addCustomer(Customer customer) {
+        if (customers == null)
+            customers = new ArrayList<>();
+        customers.add(customer);
     }
 }

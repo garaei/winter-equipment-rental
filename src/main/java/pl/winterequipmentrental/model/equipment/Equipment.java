@@ -52,4 +52,13 @@ public class Equipment implements Serializable {
     @Setter
     @Column(name = "nr_wewnetrzny_filii", nullable = false, length = 20)
     private String extensionBranch;
+
+    @Setter
+    @Column(name = "id_type_equipment", insertable = false, updatable = false)
+    private String typeEquipmentId;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "id_type_equipment", referencedColumnName = "nazwa")
+    private TypeEquipment typeEquipment;
 }
