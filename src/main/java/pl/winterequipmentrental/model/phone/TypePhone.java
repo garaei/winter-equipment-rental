@@ -2,6 +2,8 @@ package pl.winterequipmentrental.model.phone;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,6 +18,8 @@ public class TypePhone implements Serializable {
     @Column(name = "id_rodzaj_telefonu")
     private long id;
 
+    @Setter
+    @NaturalId
     @Column(name = "nazwa", nullable = false, unique = true, length = 45)
     private String name;
 }

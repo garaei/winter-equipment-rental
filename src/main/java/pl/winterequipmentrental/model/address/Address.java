@@ -3,9 +3,13 @@ package pl.winterequipmentrental.model.address;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.winterequipmentrental.model.branch.Branch;
+import pl.winterequipmentrental.model.person.employee.Employee;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,7 +35,7 @@ public class Address implements Serializable {
 
     @Setter
     @Column(name = "kod_pocztowy", nullable = false, length = 5)
-    private short zipCode;
+    private String zipCode;
 
     @Setter
     @Column(name = "numer_budynku", nullable = false, length = 8)
@@ -41,12 +45,35 @@ public class Address implements Serializable {
     @Column(name = "numer_lokalu", length = 8)
     private String apartmentNumber;
 
-    public Address(String city, String locality, String street, short zipCode, String buildingNumber, String apartmentNumber) {
+    @Setter
+    @OneToMany(mappedBy = "address")
+    private List<Employee> employees;
+
+    @Setter
+    @Column(name = "id_province", insertable = false, updatable = false)
+    private String provinceId;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "id_province", referencedColumnName = "nazwa")
+    private Province province;
+
+    @Setter
+    @OneToOne(mappedBy = "address")
+    private Branch branch;
+
+    public Address(String city, String locality, String street, String zipCode, String buildingNumber, String apartmentNumber) {
         this.city = city;
         this.locality = locality;
         this.street = street;
         this.zipCode = zipCode;
         this.buildingNumber = buildingNumber;
         this.apartmentNumber = apartmentNumber;
+    }
+
+    public void addEmployee(Employee employee) {
+        if (employees == null)
+            employees = new ArrayList<>();
+        employees.add(employee);
     }
 }

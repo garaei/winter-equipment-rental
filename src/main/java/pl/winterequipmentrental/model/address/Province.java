@@ -3,9 +3,11 @@ package pl.winterequipmentrental.model.address;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,8 +20,12 @@ public class Province implements Serializable {
     private long id;
 
     @Setter
+    @NaturalId
     @Column(name = "nazwa", nullable = false, unique = true, length = 20)
     private String name;
+
+    @OneToMany(mappedBy = "province")
+    private List<Address> addresses;
 
     public Province(String name) {
         this.name = name;
