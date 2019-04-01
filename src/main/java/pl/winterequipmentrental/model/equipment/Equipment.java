@@ -3,9 +3,12 @@ package pl.winterequipmentrental.model.equipment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
+import pl.winterequipmentrental.model.loan.LoanItem;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,6 +21,7 @@ public class Equipment implements Serializable {
     private long id;
 
     @Setter
+    @NaturalId
     @Column(name = "kod", nullable = false, unique = true, length = 30)
     private String code;
 
@@ -61,4 +65,8 @@ public class Equipment implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_type_equipment", referencedColumnName = "nazwa")
     private TypeEquipment typeEquipment;
+
+    @Setter
+    @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<LoanItem> loanItemList;
 }

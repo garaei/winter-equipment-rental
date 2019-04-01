@@ -3,6 +3,7 @@ package pl.winterequipmentrental.model.additional;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class TypeRelief implements Serializable {
     private long id;
 
     @Setter
+    @NaturalId
     @Column(name = "nazwa", nullable = false, unique = true, length = 40)
     private String name;
 
