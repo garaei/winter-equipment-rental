@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import pl.winterequipmentrental.model.address.Address;
-import pl.winterequipmentrental.model.loan.Loan;
 import pl.winterequipmentrental.model.phone.BranchPhone;
 
 import javax.persistence.*;
@@ -42,10 +41,6 @@ public class Branch implements Serializable {
     @OneToOne
     @JoinColumn(name = "id_address")
     private Address address;
-
-    @Setter
-    @OneToMany(mappedBy = "branch")
-    private List<Loan> loans;
 
     public Branch(String extension) {
         this.extension = extension;

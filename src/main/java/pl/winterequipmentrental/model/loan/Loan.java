@@ -3,15 +3,11 @@ package pl.winterequipmentrental.model.loan;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.NaturalId;
-import pl.winterequipmentrental.model.branch.Branch;
-import pl.winterequipmentrental.model.person.client.Customer;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -22,11 +18,6 @@ public class Loan implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_wypozyczenie")
     private long id;
-
-    @Setter
-    @NaturalId
-    @Column(name = "nr_wypozyczenia", nullable = false, unique = true, length = 20)
-    private String numberLoan;
 
     @Setter
     @Column(name = "data_pobrania")
@@ -47,25 +38,6 @@ public class Loan implements Serializable {
     private BigDecimal totalPrice;
 
     @Setter
-    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<LoanItem> loanItemList;
-
-    @Setter
-    @Column(name = "nr_wewnetrzny_filii", insertable = false, updatable = false)
+    @Column(name = "nr_wewnetrzny_filii", nullable = false, length = 20)
     private String extensionBranch;
-
-    @Setter
-    @ManyToOne
-    @JoinColumn(name = "nr_wewnetrzny_filii", referencedColumnName = "nr_wewnetrzny")
-    private Branch branch;
-
-    @Setter
-    @Column(name = "id_customer", insertable = false, updatable = false)
-    private long customerId;
-
-    @Setter
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_customer")
-    private Customer customer;
-
 }

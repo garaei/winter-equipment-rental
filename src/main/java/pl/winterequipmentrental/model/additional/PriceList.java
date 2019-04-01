@@ -30,7 +30,7 @@ public class PriceList implements Serializable {
     private BigDecimal price;
 
     @Setter
-    @OneToMany(mappedBy = "priceList")
+    @OneToMany(mappedBy = "typeEquipment")
     private List<TypeEquipment> typeEquipments;
 
     public PriceList(int time, BigDecimal price) {
