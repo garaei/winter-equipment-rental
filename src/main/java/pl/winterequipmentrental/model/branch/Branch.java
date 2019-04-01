@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+import pl.winterequipmentrental.model.equipment.EquipmentBranch;
 import pl.winterequipmentrental.model.address.Address;
 import pl.winterequipmentrental.model.loan.Loan;
 import pl.winterequipmentrental.model.phone.BranchPhone;
@@ -46,6 +47,10 @@ public class Branch implements Serializable {
     @Setter
     @OneToMany(mappedBy = "branch")
     private List<Loan> loans;
+
+    @Setter
+    @OneToMany(mappedBy = "branch")
+    private List<EquipmentBranch> equipmentBranches;
 
     public Branch(String extension) {
         this.extension = extension;

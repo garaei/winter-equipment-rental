@@ -46,18 +46,6 @@ public class Equipment implements Serializable {
     private String size;
 
     @Setter
-    @Column(name = "stan_aktualny", nullable = false)
-    private int currentStatus;
-
-    @Setter
-    @Column(name = "zasob_magazynu", nullable = false)
-    private int storeResources;
-
-    @Setter
-    @Column(name = "nr_wewnetrzny_filii", nullable = false, length = 20)
-    private String extensionBranch;
-
-    @Setter
     @Column(name = "id_type_equipment", insertable = false, updatable = false)
     private String typeEquipmentId;
 
@@ -69,4 +57,12 @@ public class Equipment implements Serializable {
     @Setter
     @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<LoanItem> loanItemList;
+
+    @Setter
+    @Column(name = "id_branch", insertable = false, updatable = false, length = 20)
+    private String extensionBranch;
+
+    @Setter
+    @OneToMany(mappedBy = "equipment")
+    private List<EquipmentBranch> equipmentBranches;
 }
