@@ -23,13 +23,21 @@ public class Contract implements Serializable {
     private BigDecimal salary;
 
     @Setter
+    @Column(name = "type_contract_id", insertable = false, updatable = false, nullable = false)
+    private long typeContractId;
+
+    @Setter
     @ManyToOne
     @JoinColumn(name = "type_contract_id")
     private TypeContract typeContract;
 
     @Setter
+    @Column(name = "employee_id", insertable = false, updatable = false, nullable = false)
+    private String pesel;
+
+    @Setter
     @OneToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id", referencedColumnName = "pesel")
     private Employee employee;
 
     public Contract(BigDecimal salary) {

@@ -24,6 +24,7 @@ public class Province implements Serializable {
     @Column(name = "nazwa", nullable = false, unique = true, length = 20)
     private String name;
 
+    @Setter
     @OneToMany(mappedBy = "province")
     private List<Address> addresses;
 

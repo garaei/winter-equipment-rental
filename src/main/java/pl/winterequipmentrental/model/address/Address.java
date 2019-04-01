@@ -51,7 +51,7 @@ public class Address implements Serializable {
     private List<Employee> employees;
 
     @Setter
-    @Column(name = "id_province", insertable = false, updatable = false)
+    @Column(name = "id_province", insertable = false, updatable = false, nullable = false)
     private String provinceId;
 
     @Setter

@@ -36,7 +36,7 @@ public class Branch implements Serializable {
     private List<BranchPhone> branchPhones;
 
     @Setter
-    @Column(name = "id_address", insertable = false, updatable = false)
+    @Column(name = "id_address", insertable = false, updatable = false, nullable = false)
     private long addressId;
 
     @Setter

@@ -3,6 +3,7 @@ package pl.winterequipmentrental.model.person.employee;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,6 +19,7 @@ public class Position implements Serializable {
     private long id;
 
     @Setter
+    @NaturalId
     @Column(name = "nazwa", nullable = false, length = 50, unique = true)
     private String name;
 

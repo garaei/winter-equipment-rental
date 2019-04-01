@@ -26,7 +26,7 @@ public class EquipmentBranch {
     private int storeResources;
 
     @Setter
-    @Column(name = "id_branch", insertable = false, updatable = false)
+    @Column(name = "id_branch", insertable = false, updatable = false, nullable = false)
     private String extensionBranch;
 
     @Setter
@@ -35,7 +35,7 @@ public class EquipmentBranch {
     private Branch branch;
 
     @Setter
-    @Column(name = "id_equipment", insertable = false, updatable = false)
+    @Column(name = "id_equipment", insertable = false, updatable = false, nullable = false)
     private String equipmentCode;
 
     @Setter

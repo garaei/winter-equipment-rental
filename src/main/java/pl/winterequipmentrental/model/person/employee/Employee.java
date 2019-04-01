@@ -6,10 +6,13 @@ import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import pl.winterequipmentrental.model.account.User;
 import pl.winterequipmentrental.model.address.Address;
+import pl.winterequipmentrental.model.loan.Loan;
 import pl.winterequipmentrental.model.person.Person;
+import pl.winterequipmentrental.model.phone.EmployeePhone;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -44,7 +47,7 @@ public class Employee implements Serializable {
     private Contract contract;
 
     @Setter
-    @Column(name = "id_possition", insertable =  false, updatable = false)
+    @Column(name = "id_position", insertable =  false, updatable = false, nullable = false)
     private long positionId;
 
     @Setter
@@ -53,13 +56,21 @@ public class Employee implements Serializable {
     private Position position;
 
     @Setter
-    @Column(name = "id_address", insertable = false, updatable = false)
+    @Column(name = "id_address", insertable = false, updatable = false, nullable = false)
     private long addressId;
 
     @Setter
     @ManyToOne
     @JoinColumn(name = "id_address")
     private Address address;
+
+    @Setter
+    @OneToMany(mappedBy = "employee")
+    private List<EmployeePhone> employeePhones;
+
+    @Setter
+    @OneToMany
+    private List<Loan> loans;
 
     public Employee(String pesel, String email, Person person) {
         this.pesel = pesel;

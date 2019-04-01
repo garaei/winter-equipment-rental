@@ -43,7 +43,7 @@ public class LoanItem implements Serializable {
     private boolean status;
 
     @Setter
-    @Column(name = "id_loan_item", insertable = false, updatable = false)
+    @Column(name = "id_loan_item", insertable = false, updatable = false, nullable = false)
     private long loanId;
 
     @Setter
@@ -52,7 +52,7 @@ public class LoanItem implements Serializable {
     private Loan loan;
 
     @Setter
-    @Column(name = "id_equipment", insertable = false, updatable = false)
+    @Column(name = "id_equipment", insertable = false, updatable = false, nullable = false)
     private String equipmentId;
 
     @Setter

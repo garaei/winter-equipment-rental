@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import pl.winterequipmentrental.model.branch.Branch;
 import pl.winterequipmentrental.model.person.client.Customer;
+import pl.winterequipmentrental.model.person.employee.Employee;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -51,7 +52,7 @@ public class Loan implements Serializable {
     private List<LoanItem> loanItemList;
 
     @Setter
-    @Column(name = "nr_wewnetrzny_filii", insertable = false, updatable = false)
+    @Column(name = "nr_wewnetrzny_filii", insertable = false, updatable = false, nullable = false)
     private String extensionBranch;
 
     @Setter
@@ -60,11 +61,20 @@ public class Loan implements Serializable {
     private Branch branch;
 
     @Setter
-    @Column(name = "id_customer", insertable = false, updatable = false)
+    @Column(name = "id_customer", insertable = false, updatable = false, nullable = false)
     private long customerId;
 
     @Setter
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_customer")
     private Customer customer;
+
+    @Setter
+    @Column(name = "id_employee", insertable = false, updatable = false, nullable = false)
+    private long employeeId;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "id_employee")
+    private Employee employee;
 }

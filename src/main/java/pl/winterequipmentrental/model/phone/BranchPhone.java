@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "Telefony_filii")
 public class BranchPhone extends Telephone {
     @Setter
-    @Column(name = "id_branch", insertable = false, updatable = false)
+    @Column(name = "id_branch", insertable = false, updatable = false, nullable = false)
     private String extensionBranch;
 
     @Setter
@@ -35,3 +35,5 @@ public class BranchPhone extends Telephone {
         this.extensionBranch = extensionBranch;
     }
 }
+
+//TODO Zamiana relacji ManyToOne z TypePhone na enum lub interfejs

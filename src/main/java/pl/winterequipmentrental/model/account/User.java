@@ -51,8 +51,12 @@ public class User implements Serializable {
     private Set<Role> roles;
 
     @Setter
+    @Column(name = "employee_id", insertable = false, updatable = false, nullable = false, length = 40)
+    private String email;
+
+    @Setter
     @OneToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id", referencedColumnName = "email")
     private Employee employee;
 
     public User(String login, String password, boolean active) {
