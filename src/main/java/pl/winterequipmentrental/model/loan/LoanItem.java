@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import pl.winterequipmentrental.model.additional.TypeRelief;
+import pl.winterequipmentrental.model.equipment.Equipment;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -39,6 +41,33 @@ public class LoanItem implements Serializable {
     @Setter
     @Column(name = "status", nullable = false)
     private boolean status;
+
+    @Setter
+    @Column(name = "id_loan_item", insertable = false, updatable = false)
+    private long loanId;
+
+    @Setter
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_loan_item")
+    private Loan loan;
+
+    @Setter
+    @Column(name = "id_equipment", insertable = false, updatable = false)
+    private String equipmentId;
+
+    @Setter
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_equipment", referencedColumnName = "kod")
+    private Equipment equipment;
+
+    @Setter
+    @Column(name = "id_ulga", insertable = false, updatable = false, length = 40)
+    private String typeReliefNaturalId;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "id_ulga", referencedColumnName = "nazwa")
+    private TypeRelief typeRelief;
 }
 
 

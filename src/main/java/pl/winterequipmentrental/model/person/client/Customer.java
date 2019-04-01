@@ -3,7 +3,9 @@ package pl.winterequipmentrental.model.person.client;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 import pl.winterequipmentrental.model.address.Address;
+import pl.winterequipmentrental.model.loan.Loan;
 import pl.winterequipmentrental.model.person.Person;
 
 import javax.persistence.*;
@@ -50,8 +52,8 @@ public class Customer implements Serializable {
     private Address address;
 
     @Setter
-    @ManyToOne
-    private List<Address> addresses;
+    @OneToMany(mappedBy = "customer")
+    private List<Loan> loans;
 
     public Customer(String email, Person person, Company company) {
         this.email = email;
