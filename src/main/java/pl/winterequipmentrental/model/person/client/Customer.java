@@ -9,28 +9,29 @@ import pl.winterequipmentrental.model.person.Person;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Klienci")
 @Getter
 @NoArgsConstructor
+@Table(name = "Customers")
 public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_klient")
+    @Column(name = "idCustomer", nullable = false, unique = true)
     private long id;
 
     @Setter
-    @Column(name = "email", length = 40, unique = true)
+    @Column(name = "email", unique = true, length = 40)
     private String email;
 
     @Setter
-    @Column(name = "pesel", length = 11, unique = true)
+    @Column(name = "pesel", unique = true, length = 11)
     private String pesel;
 
     @Setter
-    @Column(name = "telefon", length = 9)
+    @Column(name = "phone", length = 9)
     private String numberPhone;
 
     @Setter
@@ -54,24 +55,25 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "customer")
     private List<Loan> loans;
 
+    public Customer(Person person) {
+        this.person = person;
+    }
+
+    public Customer(String email, String pesel, Person person) {
+        this.email = email;
+        this.pesel = pesel;
+        this.person = person;
+    }
+
     public Customer(String email, Person person, Company company) {
         this.email = email;
         this.person = person;
         this.company = company;
     }
 
-    public Customer(String email, String pesel, Person person, Company company) {
-        this.email = email;
-        this.pesel = pesel;
-        this.person = person;
-        this.company = company;
-    }
-
-    public Customer(String email, String pesel, String numberPhone, Person person, Company company) {
-        this.email = email;
-        this.pesel = pesel;
-        this.numberPhone = numberPhone;
-        this.person = person;
-        this.company = company;
+    public void addLoan(Loan loan) {
+        if (loans == null)
+            loans = new ArrayList<>();
+        loans.add(loan);
     }
 }

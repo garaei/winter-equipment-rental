@@ -56,7 +56,7 @@ public class Address implements Serializable {
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "id_province", referencedColumnName = "nazwa")
+    @JoinColumn(name = "id_province", referencedColumnName = "name")
     private Province province;
 
     @Setter

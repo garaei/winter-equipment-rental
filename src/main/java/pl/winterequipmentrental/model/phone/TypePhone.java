@@ -11,15 +11,15 @@ import java.io.Serializable;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Rodzaje_telefonow")
+@Table(name = "TypePhones")
 public class TypePhone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_rodzaj_telefonu")
+    @Column(name = "idTypePhone", nullable = false, unique = true)
     private long id;
 
     @Setter
     @NaturalId
-    @Column(name = "nazwa", nullable = false, unique = true, length = 45)
+    @Column(name = "name", nullable = false, unique = true, length = 45)
     private String name;
 }

@@ -14,19 +14,19 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Cennik")
+@Table(name = "PriceList")
 public class PriceList implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_cena")
+    @Column(name = "idPriceList")
     private long id;
 
     @Setter
-    @Column(name = "czas", nullable = false)
+    @Column(name = "time", nullable = false)
     private int time;
 
     @Setter
-    @Column(name = "cena", nullable = false, precision = 6, scale = 2)
+    @Column(name = "price", nullable = false, precision = 6, scale = 2)
     private BigDecimal price;
 
     @Setter

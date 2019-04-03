@@ -6,25 +6,26 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Rodzaje_umow")
+@Table(name = "TypeContracts")
 public class TypeContract implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_rodzaj_umowy")
+    @Column(name = "idTypeContract")
     private long id;
 
     @Setter
-    @Column(name = "nazwa", nullable = false, length = 40, unique = true)
+    @Column(name = "name", nullable = false, length = 40, unique = true)
     private String name;
 
     @Setter
     @Lob
-    @Column(name = "opis")
+    @Column(name = "description")
     private String description;
 
     @Setter
@@ -39,4 +40,14 @@ public class TypeContract implements Serializable {
         this.name = name;
         this.description = description;
     }
+
+    public void addContract(Contract contract) {
+        if (contracts == null)
+            contracts = new ArrayList<>();
+        contracts.add(contract);
+    }
 }
+
+
+
+// TODO Change TypeContract Entity to Enum or interface

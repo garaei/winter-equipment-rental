@@ -17,11 +17,11 @@ import java.util.Set;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Uzytkownicy")
+@Table(name = "Users")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_user")
+    @Column(name = "idUser", nullable = false, unique = true)
     private long id;
 
     @Setter
@@ -30,11 +30,11 @@ public class User implements Serializable {
     private String login;
 
     @Setter
-    @Column(name = "haslo", nullable = false, length = 50)
+    @Column(name = "password", nullable = false, length = 50)
     private String password;
 
     @Setter
-    @Column(name = "aktywnosc", nullable = false)
+    @Column(name = "active", nullable = false)
     private boolean active;
 
     @Column(name = "create_date", nullable = false)
@@ -51,12 +51,12 @@ public class User implements Serializable {
     private Set<Role> roles;
 
     @Setter
-    @Column(name = "employee_id", insertable = false, updatable = false, nullable = false, length = 40)
+    @Column(name = "id_employee", insertable = false, updatable = false, nullable = false, unique = true, length = 40)
     private String email;
 
     @Setter
     @OneToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "email")
+    @JoinColumn(name = "id_employee", referencedColumnName = "email", nullable = false, unique = true)
     private Employee employee;
 
     public User(String login, String password, boolean active) {
@@ -65,7 +65,14 @@ public class User implements Serializable {
         this.active = active;
     }
 
-    public void setRoleToRoles(Role role) {
+    public User(String login, String password, boolean active, Employee employee) {
+        this.login = login;
+        this.password = password;
+        this.active = active;
+        this.employee = employee;
+    }
+
+    public void addRole(Role role) {
         if (roles == null)
             roles = new HashSet<>();
         roles.add(role);

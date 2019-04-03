@@ -10,29 +10,30 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Telefony_filii")
+@Table(name = "BranchPhones")
 public class BranchPhone extends Telephone {
     @Setter
-    @Column(name = "id_branch", insertable = false, updatable = false, nullable = false)
+    @Column(name = "idBranchPhone", insertable = false, updatable = false, nullable = false)
     private String extensionBranch;
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "id_branch", referencedColumnName = "nr_wewnetrzny")
+    @JoinColumn(name = "id_branch", referencedColumnName = "extension", nullable = false)
     private Branch branch;
 
     @Setter
-    @Column(name = "id_type_phone", insertable = false, updatable = false)
+    @Column(name = "id_type_phone", insertable = false, updatable = false, nullable = false)
     private String typePhoneId;
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "id_type_phone", referencedColumnName = "nazwa")
+    @JoinColumn(name = "id_type_phone", referencedColumnName = "name", nullable = false)
     private TypePhone typePhone;
 
-    public BranchPhone(String numberPhone, String extensionBranch) {
+    public BranchPhone(String numberPhone, Branch branch, TypePhone typePhone) {
         super(numberPhone);
-        this.extensionBranch = extensionBranch;
+        this.branch = branch;
+        this.typePhone = typePhone;
     }
 }
 

@@ -11,20 +11,20 @@ import java.io.Serializable;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Rodzaje_sprzetu")
+@Table(name = "TypeEquipments")
 public class TypeEquipment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_kategoria_sprzet")
+    @Column(name = "idTypeEquipment", nullable = false, unique = true)
     private long id;
 
     @Setter
-    @Column(name = "nazwa", nullable = false, unique = true, length = 50)
+    @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
 
     @Setter
     @Lob
-    @Column(name = "opis")
+    @Column(name = "description")
     private String description;
 
     @Setter
@@ -43,5 +43,16 @@ public class TypeEquipment implements Serializable {
     public TypeEquipment(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    public TypeEquipment(String name, PriceList priceList) {
+        this.name = name;
+        this.priceList = priceList;
+    }
+
+    public TypeEquipment(String name, String description, PriceList priceList) {
+        this.name = name;
+        this.description = description;
+        this.priceList = priceList;
     }
 }

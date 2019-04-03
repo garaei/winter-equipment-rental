@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Telefony_pracownikow")
+@Table(name = "PhoneEmployees")
 public class EmployeePhone extends Telephone {
     @Setter
     @Column(name = "id_employee", insertable = false, updatable = false, nullable = false)
@@ -18,6 +18,11 @@ public class EmployeePhone extends Telephone {
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "id_employee")
+    @JoinColumn(name = "id_employee", nullable = false)
     private Employee employee;
+
+    public EmployeePhone(String numberPhone, Employee employee) {
+        super(numberPhone);
+        this.employee = employee;
+    }
 }

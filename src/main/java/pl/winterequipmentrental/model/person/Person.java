@@ -15,15 +15,19 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Person implements Serializable {
-    @Column(name = "imie", nullable = false, length = 20)
+    @Setter
+    @Column(name = "name", nullable = false, length = 20)
     private String firstName;
 
-    @Column(name = "drugie_imie", length = 20)
+    @Setter
+    @Column(name = "second_name", length = 20)
     private String secondName;
 
-    @Column(name = "nazwisko", nullable = false, length = 40)
+    @Setter
+    @Column(name = "last_name", nullable = false, length = 40)
     private String lastName;
 
-    @Column(name = "nr_dowodu", nullable = false, length = 10, unique = true)
+    @Setter
+    @Column(name = "id_number", nullable = false, unique = true, length = 10)
     private String IDNumber;
 }

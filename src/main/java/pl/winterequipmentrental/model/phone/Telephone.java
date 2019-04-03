@@ -14,11 +14,11 @@ import java.io.Serializable;
 public abstract class Telephone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "id_telefon")
+    @Column(name = "idPhone", nullable = false, unique = true)
     private long id;
 
     @Setter
-    @Column(name = "numer", nullable = false, length = 9, unique = true)
+    @Column(name = "number", nullable = false, unique = true, length = 9)
     private String numberPhone;
 
     public Telephone(String numberPhone) {

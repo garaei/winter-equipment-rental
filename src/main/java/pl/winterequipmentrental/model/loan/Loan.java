@@ -11,6 +11,7 @@ import pl.winterequipmentrental.model.person.employee.Employee;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -77,4 +78,10 @@ public class Loan implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_employee")
     private Employee employee;
+
+    public void addLoanItem(LoanItem loanItem) {
+        if (loanItemList == null)
+            loanItemList = new ArrayList<>();
+        loanItemList.add(loanItem);
+    }
 }

@@ -8,6 +8,7 @@ import pl.winterequipmentrental.model.loan.LoanItem;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -65,4 +66,16 @@ public class Equipment implements Serializable {
     @Setter
     @OneToMany(mappedBy = "equipment")
     private List<EquipmentBranch> equipmentBranches;
+
+    public void addLoanItem(LoanItem loanItem) {
+        if (loanItemList == null)
+            loanItemList = new ArrayList<>();
+        loanItemList.add(loanItem);
+    }
+
+    public void addEquipmentBranch(EquipmentBranch equipmentBranch) {
+        if (equipmentBranches == null)
+            equipmentBranches = new ArrayList<>();
+        equipmentBranches.add(equipmentBranch);
+    }
 }

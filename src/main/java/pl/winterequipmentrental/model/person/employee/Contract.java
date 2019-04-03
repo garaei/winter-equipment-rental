@@ -11,36 +11,38 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Umowy")
+@Table(name = "Contracts")
 public class Contract implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_umowa")
+    @Column(name = "idContract")
     private long id;
 
     @Setter
-    @Column(name = "wynagrodzenie", precision = 6, scale = 2)
+    @Column(name = "salary", precision = 6, scale = 2)
     private BigDecimal salary;
 
     @Setter
-    @Column(name = "type_contract_id", insertable = false, updatable = false, nullable = false)
+    @Column(name = "id_type_contract", insertable = false, updatable = false, nullable = false)
     private long typeContractId;
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "type_contract_id")
+    @JoinColumn(name = "id_type_contract")
     private TypeContract typeContract;
 
     @Setter
-    @Column(name = "employee_id", insertable = false, updatable = false, nullable = false)
+    @Column(name = "id_employee", insertable = false, updatable = false, nullable = false)
     private String pesel;
 
     @Setter
     @OneToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "pesel")
+    @JoinColumn(name = "id_employee", referencedColumnName = "pesel", nullable = false)
     private Employee employee;
 
-    public Contract(BigDecimal salary) {
+    public Contract(BigDecimal salary, TypeContract typeContract, Employee employee) {
         this.salary = salary;
+        this.typeContract = typeContract;
+        this.employee = employee;
     }
 }

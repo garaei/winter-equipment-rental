@@ -18,16 +18,16 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Filie")
+@Table(name = "Branch")
 public class Branch implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_filia")
+    @Column(name = "idBranch", nullable = false, unique = true)
     private long id;
 
     @Setter
     @NaturalId
-    @Column(name = "nr_wewnetrzny", nullable = false, unique = true, length = 20)
+    @Column(name = "extension", nullable = false, unique = true, length = 20)
     private String extension;
 
     @Setter
@@ -56,9 +56,20 @@ public class Branch implements Serializable {
         this.extension = extension;
     }
 
-    public void addBranchPhones(BranchPhone branchPhone) {
+    public Branch(String extension, Address address) {
+        this.extension = extension;
+        this.address = address;
+    }
+
+    public void addBranchPhone(BranchPhone branchPhone) {
         if (branchPhones == null)
             branchPhones = new ArrayList<>();
         branchPhones.add(branchPhone);
+    }
+
+    public void addLoan(Loan loan) {
+        if (loans == null)
+            loans = new ArrayList<>();
+        loans.add(loan);
     }
 }

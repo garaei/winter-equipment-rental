@@ -15,9 +15,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Company implements Serializable {
-    @Column(name = "nazwa_firmy", length = 100)
+    @Setter
+    @Column(name = "company_name", length = 100)
     private String name;
 
-    @Column(name = "nip", length = 10)
+    @Setter
+    @Column(name = "nip", unique = true, length = 10)
     private String nip;
 }
