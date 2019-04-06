@@ -10,19 +10,26 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Sprzet_filii")
+@Table(name = "EquipmentBranch")
 public class EquipmentBranch {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_sprzet_filii")
+    @Column(name = "idEquipmentBranch", nullable = false, unique = true)
     private long id;
 
+    /**
+     * stores information about the amount of equipment in the branch
+     * which are available current time
+     */
     @Setter
-    @Column(name = "stan_aktualny", nullable = false)
+    @Column(name = "current_satus", nullable = false)
     private int currentStatus;
 
+    /**
+     * stores information about the amount of equipment in the branch
+     */
     @Setter
-    @Column(name = "zasob_magazynu", nullable = false)
+    @Column(name = "store_resources", nullable = false)
     private int storeResources;
 
     @Setter
@@ -31,15 +38,27 @@ public class EquipmentBranch {
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "id_branch", referencedColumnName = "nr_wewnetrzny")
+    @JoinColumn(name = "id_branch", referencedColumnName = "extension")
     private Branch branch;
 
     @Setter
-    @Column(name = "id_equipment", insertable = false, updatable = false, nullable = false)
+    @Column(name = "id_equipment", insertable = false, updatable = false, nullable = false, length = 30)
     private String equipmentCode;
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "id_equipment", referencedColumnName = "kod")
+    @JoinColumn(name = "id_equipment", referencedColumnName = "code", nullable = false)
     private Equipment equipment;
+
+    public EquipmentBranch(Branch branch, Equipment equipment) {
+        this.branch = branch;
+        this.equipment = equipment;
+    }
+
+    public EquipmentBranch(int currentStatus, int storeResources, Branch branch, Equipment equipment) {
+        this.currentStatus = currentStatus;
+        this.storeResources = storeResources;
+        this.branch = branch;
+        this.equipment = equipment;
+    }
 }

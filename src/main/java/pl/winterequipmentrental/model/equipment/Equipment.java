@@ -14,36 +14,36 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Sprzet")
+@Table(name = "Equipment")
 public class Equipment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_sprzet")
+    @Column(name = "idEquipment", nullable = false, unique = true)
     private long id;
 
     @Setter
     @NaturalId
-    @Column(name = "kod", nullable = false, unique = true, length = 30)
+    @Column(name = "code", nullable = false, unique = true, length = 30)
     private String code;
 
     @Setter
-    @Column(name = "nazwa", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Setter
-    @Column(name = "producent", nullable = false, length = 30)
+    @Column(name = "manufacturer", nullable = false, length = 30)
     private String manufacturer;
 
     @Setter
-    @Column(name = "szerokosc", length = 10)
+    @Column(name = "width", length = 10)
     private String width;
 
     @Setter
-    @Column(name = "wysokosc", length = 10)
+    @Column(name = "height", length = 10)
     private String height;
 
     @Setter
-    @Column(name = "rozmiar", nullable = false, length = 15)
+    @Column(name = "size", nullable = false, length = 15)
     private String size;
 
     @Setter
@@ -52,7 +52,7 @@ public class Equipment implements Serializable {
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "id_type_equipment", referencedColumnName = "nazwa")
+    @JoinColumn(name = "id_type_equipment", referencedColumnName = "name")
     private TypeEquipment typeEquipment;
 
     @Setter
@@ -66,6 +66,24 @@ public class Equipment implements Serializable {
     @Setter
     @OneToMany(mappedBy = "equipment")
     private List<EquipmentBranch> equipmentBranches;
+
+    public Equipment(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
+
+    public Equipment(String code, String name, String manufacturer) {
+        this.code = code;
+        this.name = name;
+        this.manufacturer = manufacturer;
+    }
+
+    public Equipment(String code, String name, String manufacturer, TypeEquipment typeEquipment) {
+        this.code = code;
+        this.name = name;
+        this.manufacturer = manufacturer;
+        this.typeEquipment = typeEquipment;
+    }
 
     public void addLoanItem(LoanItem loanItem) {
         if (loanItemList == null)

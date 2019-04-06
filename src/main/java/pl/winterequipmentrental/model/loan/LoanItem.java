@@ -16,58 +16,69 @@ import java.util.Date;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Pozycje_wypozyczen")
+@Table(name = "LoanItem")
 public class LoanItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_pozycja")
+    @Column(name = "idLoanItem", nullable = false, unique = true)
     private long id;
 
     @Setter
-    @Column(name = "naleznosc", precision = 6, scale = 2)
+    @Column(name = "charge", precision = 6, scale = 2)
     private BigDecimal charge;
 
     @Setter
-    @Column(name = "data_pobrania", nullable = false)
+    @Column(name = "rentalDate", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date rentalDate;
 
     @Setter
-    @Column(name = "data_zdania")
+    @Column(name = "dateOfReturn")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfReturn;
 
+    /**
+     * If status is set:
+     * 0 - the loan item is in progress
+     * 1 - the loan item is completed
+     */
     @Setter
     @Column(name = "status", nullable = false)
     private boolean status;
 
     @Setter
-    @Column(name = "id_loan_item", insertable = false, updatable = false, nullable = false)
-    private long loanId;
+    @Column(name = "loan_number", insertable = false, updatable = false, nullable = false)
+    private String loanNumber;
 
     @Setter
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_loan_item")
+    @JoinColumn(name = "loan_number", referencedColumnName = "loan_number")
     private Loan loan;
 
     @Setter
-    @Column(name = "id_equipment", insertable = false, updatable = false, nullable = false)
+    @Column(name = "code_equipment", insertable = false, updatable = false, nullable = false)
     private String equipmentId;
 
     @Setter
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_equipment", referencedColumnName = "kod")
+    @JoinColumn(name = "code_equipment", referencedColumnName = "code")
     private Equipment equipment;
 
     @Setter
-    @Column(name = "id_ulga", insertable = false, updatable = false, length = 40)
+    @Column(name = "relief", insertable = false, updatable = false, length = 40)
     private String typeReliefNaturalId;
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "id_ulga", referencedColumnName = "nazwa")
+    @JoinColumn(name = "relief", referencedColumnName = "name")
     private TypeRelief typeRelief;
+
+    public LoanItem(boolean status, Loan loan, Equipment equipment) {
+        this.status = status;
+        this.loan = loan;
+        this.equipment = equipment;
+    }
 }
 
 

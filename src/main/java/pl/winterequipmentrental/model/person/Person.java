@@ -30,4 +30,10 @@ public class Person implements Serializable {
     @Setter
     @Column(name = "id_number", nullable = false, unique = true, length = 10)
     private String IDNumber;
+
+    public Person(String firstName, String lastName, String IDNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.IDNumber = IDNumber;
+    }
 }

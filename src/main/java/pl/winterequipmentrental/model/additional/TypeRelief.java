@@ -11,25 +11,25 @@ import java.io.Serializable;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Rodzaje_ulg")
+@Table(name = "TypeRelief")
 public class TypeRelief implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_ulga")
+    @Column(name = "idTypeRelief", nullable = false, unique = true)
     private long id;
 
     @Setter
     @NaturalId
-    @Column(name = "nazwa", nullable = false, unique = true, length = 40)
+    @Column(name = "name", nullable = false, unique = true, length = 40)
     private String name;
 
     @Setter
-    @Column(name = "znizka_procentowa", nullable = false, length = 3)
+    @Column(name = "discount", nullable = false, length = 3)
     private short discount;
 
     @Setter
     @Lob
-    @Column(name = "opis")
+    @Column(name = "description")
     private String description;
 
     public TypeRelief(String name, short discount) {

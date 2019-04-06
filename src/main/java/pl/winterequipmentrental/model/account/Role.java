@@ -19,19 +19,27 @@ public class Role implements Serializable {
     @Column(name = "idRole", unique = true, nullable = false)
     private long id;
 
+    /**
+     * Should be written in capital letters. Unique and can not be null.
+     * Can have max 30 chars.
+     */
     @Setter
     @Column(name = "name", nullable = false, unique = true, length = 30)
     private String name;
 
+    /**
+     * Describe of the role
+     */
     @Setter
     @Column(name = "description")
     private String description;
 
+    /**
+     * ManyToMany relationship with User entity.
+     * A set type list that contains role users.
+     */
     @Setter
-    @ManyToMany
-    @JoinTable(name = "Users_roles",
-        joinColumns = {@JoinColumn(name = "id_role")},
-        inverseJoinColumns = {@JoinColumn(name = "id_user")})
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
     public Role(String name) {
@@ -43,6 +51,10 @@ public class Role implements Serializable {
         this.description = description;
     }
 
+    /**
+     * Adding a signle user to the user list
+     * @param user - user which will be add to users list
+     */
     public void addUser(User user) {
         if (users == null)
             users = new HashSet<>();

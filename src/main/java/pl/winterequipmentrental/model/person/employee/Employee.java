@@ -1,8 +1,11 @@
 package pl.winterequipmentrental.model.person.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.NaturalId;
 import pl.winterequipmentrental.model.account.User;
 import pl.winterequipmentrental.model.address.Address;
@@ -22,18 +25,20 @@ import java.util.List;
 public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idEmployee", nullable = false, unique = true)
+    @Column(name = "ID_EMPLOYEE", insertable =  false, updatable = false, nullable = false, unique = true)
     private long id;
 
     @Setter
-    @NaturalId
     @Column(name = "pesel", nullable = false, unique = true , length = 11)
     private String pesel;
 
     @Setter
-    @NaturalId
     @Column(name = "email", nullable = false, unique = true, length = 40)
     private String email;
+
+    @Setter
+    @Column(name = "hired", nullable = false)
+    private boolean hired;
 
     @Setter
     @Embedded
@@ -48,6 +53,10 @@ public class Employee implements Serializable {
     private Contract contract;
 
     @Setter
+    @OneToMany(mappedBy = "employer")
+    private List<Contract> employerContracts;
+
+    @Setter
     @Column(name = "id_position", insertable =  false, updatable = false, nullable = false)
     private String positionId;
 
@@ -55,10 +64,6 @@ public class Employee implements Serializable {
     @ManyToOne
     @JoinColumn(name = "id_position", referencedColumnName = "name", nullable = false)
     private Position position;
-
-    @Setter
-    @Column(name = "id_address", insertable = false, updatable = false)
-    private long addressId;
 
     @Setter
     @ManyToOne
@@ -130,6 +135,12 @@ public class Employee implements Serializable {
         if (employeePhones == null)
             employeePhones = new ArrayList<>();
         employeePhones.add(employeePhone);
+    }
+
+    public void addEmployerContract(Contract contract) {
+        if (employerContracts == null)
+            employerContracts = new ArrayList<>();
+        employerContracts.add(contract);
     }
 
     public void addLoan(Loan loan) {

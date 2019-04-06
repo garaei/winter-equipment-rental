@@ -32,7 +32,6 @@ public class Branch implements Serializable {
 
     @Setter
     @OneToMany(mappedBy = "branch")
-    @JsonIgnoreProperties("branch")
     private List<BranchPhone> branchPhones;
 
     @Setter

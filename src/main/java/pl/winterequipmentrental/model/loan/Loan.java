@@ -3,6 +3,7 @@ package pl.winterequipmentrental.model.loan;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NaturalId;
 import pl.winterequipmentrental.model.branch.Branch;
 import pl.winterequipmentrental.model.person.client.Customer;
@@ -18,34 +19,40 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Wypozyczenia")
+@Table(name = "Loans")
 public class Loan implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_wypozyczenie")
+    @Column(name = "idLoan", nullable = false, unique = true)
     private long id;
 
     @Setter
     @NaturalId
-    @Column(name = "nr_wypozyczenia", nullable = false, unique = true, length = 20)
-    private String numberLoan;
+    @Column(name = "loan_number", nullable = false, unique = true, length = 20)
+    private String loanNumber;
 
     @Setter
-    @Column(name = "data_pobrania")
+    @Column(name = "rental_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date rentalDate;
 
     @Setter
-    @Column(name = "data_zwrotu")
+    @Column(name = "date_return")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfReturn;
 
+    /**
+     * If status is set:
+     * 0 - the loan is in progress
+     * 1 - the loan is completed and paid for
+     */
     @Setter
-    @Column(name = "status", nullable = false, length = 1)
-    private short status;
+    @Column(name = "status", nullable = false)
+    private boolean status;
 
     @Setter
-    @Column(name = "cena_calkowita", precision = 6, scale = 2)
+    @Column(name = "total_price", precision = 6, scale = 2)
     private BigDecimal totalPrice;
 
     @Setter
@@ -53,12 +60,12 @@ public class Loan implements Serializable {
     private List<LoanItem> loanItemList;
 
     @Setter
-    @Column(name = "nr_wewnetrzny_filii", insertable = false, updatable = false, nullable = false)
+    @Column(name = "extension_branch", insertable = false, updatable = false, nullable = false)
     private String extensionBranch;
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "nr_wewnetrzny_filii", referencedColumnName = "nr_wewnetrzny")
+    @JoinColumn(name = "extension_branch", referencedColumnName = "extension", nullable = false)
     private Branch branch;
 
     @Setter
@@ -71,13 +78,28 @@ public class Loan implements Serializable {
     private Customer customer;
 
     @Setter
-    @Column(name = "id_employee", insertable = false, updatable = false, nullable = false)
+    @Column(name = "ID_EMPLOYEE", insertable = false, updatable = false, nullable = false)
     private long employeeId;
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "id_employee")
+    @JoinColumn(name = "ID_EMPLOYEE", nullable = false)
     private Employee employee;
+
+    public Loan(String loanNumber, Date rentalDate, boolean status) {
+        this.loanNumber = loanNumber;
+        this.rentalDate = rentalDate;
+        this.status = status;
+    }
+
+    public Loan(String loanNumber, Date rentalDate, boolean status, Branch branch, Customer customer, Employee employee) {
+        this.loanNumber = loanNumber;
+        this.rentalDate = rentalDate;
+        this.status = status;
+        this.branch = branch;
+        this.customer = customer;
+        this.employee = employee;
+    }
 
     public void addLoanItem(LoanItem loanItem) {
         if (loanItemList == null)

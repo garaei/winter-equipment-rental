@@ -1,12 +1,17 @@
 package pl.winterequipmentrental.model.person.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jdk.jfr.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.winterequipmentrental.model.person.client.Company;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -15,30 +20,64 @@ import java.math.BigDecimal;
 public class Contract implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idContract")
+    @Column(name = "id_contract", insertable = false, updatable = false, nullable = false, unique = true)
     private long id;
+
+    @Setter
+    @Column(name = "contract_number", unique = true, nullable = false, length = 10)
+    private String contractNumber;
 
     @Setter
     @Column(name = "salary", precision = 6, scale = 2)
     private BigDecimal salary;
 
     @Setter
-    @Column(name = "id_type_contract", insertable = false, updatable = false, nullable = false)
-    private long typeContractId;
+    @Embedded
+    private Company company;
 
     @Setter
-    @ManyToOne
-    @JoinColumn(name = "id_type_contract")
+    @Lob
+    @Column(name = "conditions")
+    private String conditionsEmployment;
+
+    @Setter
+    @Column(name = "type_contract")
     private TypeContract typeContract;
 
     @Setter
-    @Column(name = "id_employee", insertable = false, updatable = false, nullable = false)
-    private String pesel;
+    @Column(name = "period_from")
+    @Temporal(TemporalType.DATE)
+    private Date periodFrom;
 
     @Setter
-    @OneToOne
-    @JoinColumn(name = "id_employee", referencedColumnName = "pesel", nullable = false)
+    @Column(name = "period_to")
+    @Temporal(TemporalType.DATE)
+    private Date periodTo;
+
+    @Setter
+    @Column(name = "id_employee", insertable = false, updatable = false, nullable = false)
+    private long employeeId;
+
+    @Setter
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_employee", nullable = false, referencedColumnName = "ID_EMPLOYEE")
+    @JsonIgnoreProperties({"position", "address", "employeePhones", "loans", "employerContracts", "contract", "user"})
     private Employee employee;
+
+    @Setter
+    @Column(name = "id_employer", insertable = false, updatable = false, nullable = false)
+    private long employerId;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_employer", nullable = false, referencedColumnName = "ID_EMPLOYEE")
+    @JsonIgnoreProperties({"position", "address", "employeePhones", "loans", "employerContracts", "contract", "user"})
+    private Employee employer;
+
+    public Contract(TypeContract typeContract, Employee employee) {
+        this.typeContract = typeContract;
+        this.employee = employee;
+    }
 
     public Contract(BigDecimal salary, TypeContract typeContract, Employee employee) {
         this.salary = salary;

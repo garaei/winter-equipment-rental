@@ -1,5 +1,6 @@
 package pl.winterequipmentrental.model.person.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,7 @@ public class Position implements Serializable {
 
     @Setter
     @OneToMany(mappedBy = "position")
+    @JsonIgnore
     private List<Employee> employees;
 
     public Position(String name) {

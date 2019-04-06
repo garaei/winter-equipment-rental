@@ -28,12 +28,7 @@ public class TypeEquipment implements Serializable {
     private String description;
 
     @Setter
-    @Column(name = "id_price", insertable = false, updatable = false)
-    private long priceId;
-
-    @Setter
-    @ManyToOne
-    @JoinColumn(name = "id_price")
+    @Embedded
     private PriceList priceList;
 
     public TypeEquipment(String name) {

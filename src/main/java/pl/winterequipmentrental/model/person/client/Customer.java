@@ -31,7 +31,7 @@ public class Customer implements Serializable {
     private String pesel;
 
     @Setter
-    @Column(name = "phone", length = 9)
+    @Column(name = "person_phone", length = 9)
     private String numberPhone;
 
     @Setter

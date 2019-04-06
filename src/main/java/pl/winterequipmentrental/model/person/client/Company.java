@@ -22,4 +22,13 @@ public class Company implements Serializable {
     @Setter
     @Column(name = "nip", unique = true, length = 10)
     private String nip;
+
+    @Setter
+    @Column(name = "regon", unique = true, length = 14)
+    private String regon;
+
+    @Setter
+    @Column(name = "company_phone", length = 9)
+    private String companyPhone;
+
 }
