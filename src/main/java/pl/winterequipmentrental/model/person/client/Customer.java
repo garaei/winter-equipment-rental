@@ -1,5 +1,6 @@
 package pl.winterequipmentrental.model.person.client;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +20,7 @@ import java.util.List;
 public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idCustomer", nullable = false, unique = true)
+    @Column(name = "idCustomer", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter
@@ -53,6 +54,7 @@ public class Customer implements Serializable {
 
     @Setter
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Loan> loans;
 
     public Customer(Person person) {

@@ -1,5 +1,7 @@
 package pl.winterequipmentrental.model.address;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,31 +17,31 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Adresy")
+@Table(name = "Address")
 public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_adres")
+    @Column(name = "id_address", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter
-    @Column(name = "miasto", nullable = false, length = 40)
+    @Column(name = "city", nullable = false, length = 40)
     private String city;
 
     @Setter
-    @Column(name = "miejscowosc", nullable = false, length = 40)
+    @Column(name = "locality", nullable = false, length = 40)
     private String locality;
 
     @Setter
-    @Column(name = "ulica", length = 30)
+    @Column(name = "street", length = 30)
     private String street;
 
     @Setter
-    @Column(name = "kod_pocztowy", nullable = false, length = 5)
+    @Column(name = "zip_code", nullable = false, length = 5)
     private String zipCode;
 
     @Setter
-    @Column(name = "numer_budynku", nullable = false, length = 8)
+    @Column(name = "building_number", nullable = false, length = 8)
     private String buildingNumber;
 
     @Setter
@@ -48,6 +50,7 @@ public class Address implements Serializable {
 
     @Setter
     @OneToMany(mappedBy = "address")
+    @JsonIgnore
     private List<Employee> employees;
 
     @Setter
@@ -57,14 +60,17 @@ public class Address implements Serializable {
     @Setter
     @ManyToOne
     @JoinColumn(name = "id_province", referencedColumnName = "name")
+    @JsonIgnoreProperties("id")
     private Province province;
 
     @Setter
     @OneToOne(mappedBy = "address")
+    @JsonIgnore
     private Branch branch;
 
     @Setter
     @OneToMany(mappedBy = "address")
+    @JsonIgnore
     private List<Customer> customers;
 
     public Address(String city, String locality, String street, String zipCode, String buildingNumber, String apartmentNumber) {

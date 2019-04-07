@@ -1,5 +1,6 @@
 package pl.winterequipmentrental.model.phone;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class EmployeePhone extends Telephone {
     @Setter
     @ManyToOne
     @JoinColumn(name = "id_employee", nullable = false)
+    @JsonIgnore
     private Employee employee;
 
     public EmployeePhone(String numberPhone, Employee employee) {

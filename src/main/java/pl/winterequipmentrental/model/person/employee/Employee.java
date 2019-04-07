@@ -1,15 +1,12 @@
 package pl.winterequipmentrental.model.person.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.NaturalId;
 import pl.winterequipmentrental.model.account.User;
 import pl.winterequipmentrental.model.address.Address;
-import pl.winterequipmentrental.model.loan.Loan;
 import pl.winterequipmentrental.model.person.Person;
 import pl.winterequipmentrental.model.phone.EmployeePhone;
 
@@ -46,14 +43,17 @@ public class Employee implements Serializable {
 
     @Setter
     @OneToOne(mappedBy = "employee")
+    @JsonIgnoreProperties({"password", "createDate", "updateDate", "roles", "employeeId", "employee"})
     private User user;
 
     @Setter
     @OneToOne(mappedBy = "employee")
+    @JsonIgnoreProperties({"id", "salary", "company", "conditionsEmployment", "employeeId", "employee", "employerId", "employer"})
     private Contract contract;
 
     @Setter
     @OneToMany(mappedBy = "employer")
+    @JsonIgnore
     private List<Contract> employerContracts;
 
     @Setter
@@ -63,6 +63,7 @@ public class Employee implements Serializable {
     @Setter
     @ManyToOne
     @JoinColumn(name = "id_position", referencedColumnName = "name", nullable = false)
+    @JsonIgnore
     private Position position;
 
     @Setter
@@ -72,11 +73,8 @@ public class Employee implements Serializable {
 
     @Setter
     @OneToMany(mappedBy = "employee")
+    @JsonIgnoreProperties({"id", "employeeId", "employee"})
     private List<EmployeePhone> employeePhones;
-
-    @Setter
-    @OneToMany
-    private List<Loan> loans;
 
     public Employee(String pesel,
                     String email,
@@ -141,12 +139,6 @@ public class Employee implements Serializable {
         if (employerContracts == null)
             employerContracts = new ArrayList<>();
         employerContracts.add(contract);
-    }
-
-    public void addLoan(Loan loan) {
-        if (loans == null)
-            loans = new ArrayList<>();
-        loans.add(loan);
     }
 }
 

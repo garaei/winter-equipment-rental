@@ -1,5 +1,6 @@
 package pl.winterequipmentrental.model.additional;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +19,7 @@ import java.util.Date;
 public class Charge implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idCharge", nullable = false, unique = true)
+    @Column(name = "id_charge", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter
@@ -38,6 +39,7 @@ public class Charge implements Serializable {
     @Setter
     @OneToOne
     @JoinColumn(name = "loan_number", referencedColumnName = "loan_number", nullable = false)
+    @JsonIgnore
     private Loan loan;
 
     public Charge(BigDecimal charge, Loan loan) {

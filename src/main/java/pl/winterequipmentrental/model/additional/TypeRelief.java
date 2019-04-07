@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class TypeRelief implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idTypeRelief", nullable = false, unique = true)
+    @Column(name = "idTypeRelief", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter

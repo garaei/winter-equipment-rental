@@ -1,5 +1,7 @@
 package pl.winterequipmentrental.model.account;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,13 +9,12 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
+import pl.winterequipmentrental.model.loan.Loan;
 import pl.winterequipmentrental.model.person.employee.Employee;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -25,19 +26,14 @@ public class User implements Serializable {
     @Column(name = "id_user", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
-    /**
-     * Unique field which can not be null and can have max 20 chars.
-     */
     @Setter
     @NaturalId
     @Column(name = "login", nullable = false, unique = true, length = 20)
     private String login;
 
-    /**
-     * Password in coded form. Can have max 50 chars.
-     */
     @Setter
     @Column(name = "password", nullable = false, length = 50)
+    @JsonIgnore
     private String password;
 
     /**
@@ -49,26 +45,19 @@ public class User implements Serializable {
     @Column(name = "active", nullable = false)
     private boolean active;
 
-    /**
-     * Date of making the user.
-     */
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     @Column(name = "create_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createDate;
 
-    /**
-     * Date of updating the user.
-     */
     @Setter
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     @Column(name = "update_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date updateDate;
 
-    /**
-     * ManyToMany relationship with Role entity.
-     * A set type list that contains user roles.
-     * Ignores the description, users and id fields from the Role class when get JSON.
-     */
     @Setter
     @ManyToMany
     @JoinTable(name = "Users_roles",
@@ -77,23 +66,31 @@ public class User implements Serializable {
     @JsonIgnoreProperties({"description", "users", "id"})
     private Set<Role> roles;
 
-    /**
-     * Id employee which can not be insertable and updatable.
-     */
     @Setter
-    @Column(name = "ID_EMPLOYEE", insertable = false, updatable = false)
+    @Column(name = "ID_EMPLOYEE", insertable = false, updatable = false, nullable = false)
     private long employeeId;
 
-    /**
-     * OneToOne relationship with Employee entity
-     * Ignores the position, address, employeePhones, loans, employerContracts,
-     * contract, user fields from the Employee class when get JSON.
-     */
     @Setter
     @OneToOne
     @JoinColumn(name = "ID_EMPLOYEE")
-    @JsonIgnoreProperties({"position", "address", "employeePhones", "loans", "employerContracts", "contract", "user"})
+    @JsonIgnore
     private Employee employee;
+
+    /**
+     * Loans that this user created
+     */
+    @Setter
+    @OneToMany(mappedBy = "createdByUser")
+    @JsonIgnore
+    private Set<Loan> loansCreated;
+
+    /**
+     * Loans which this user accepted and set as completed
+     */
+    @Setter
+    @OneToMany(mappedBy = "completedByUser")
+    @JsonIgnore
+    private Set<Loan> completedLoans;
 
     public User(String login, String password, boolean active) {
         this.login = login;
@@ -108,13 +105,21 @@ public class User implements Serializable {
         this.employee = employee;
     }
 
-    /**
-     * Adding a single role to the role list
-     * @param role - role which will be add to roles list
-     */
     public void addRole(Role role) {
         if (roles == null)
             roles = new HashSet<>();
         roles.add(role);
+    }
+
+    public void addLoanInLoansCreatedList(Loan loan) {
+        if (loansCreated == null)
+            loansCreated = new HashSet<>();
+        loansCreated.add(loan);
+    }
+
+    public void addLoanInLoanCompletedList(Loan loan) {
+        if (completedLoans == null)
+            completedLoans = new HashSet<>();
+        completedLoans.add(loan);
     }
 }

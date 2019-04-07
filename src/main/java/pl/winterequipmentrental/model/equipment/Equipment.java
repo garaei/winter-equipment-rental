@@ -1,10 +1,12 @@
 package pl.winterequipmentrental.model.equipment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
-import pl.winterequipmentrental.model.loan.LoanItem;
+import pl.winterequipmentrental.model.additional.PriceList;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -18,7 +20,7 @@ import java.util.List;
 public class Equipment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idEquipment", nullable = false, unique = true)
+    @Column(name = "idEquipment", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter
@@ -53,19 +55,18 @@ public class Equipment implements Serializable {
     @Setter
     @ManyToOne
     @JoinColumn(name = "id_type_equipment", referencedColumnName = "name")
-    private TypeEquipment typeEquipment;
-
-    @Setter
-    @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<LoanItem> loanItemList;
-
-    @Setter
-    @Column(name = "id_branch", insertable = false, updatable = false, length = 20)
-    private String extensionBranch;
+    @JsonIgnoreProperties({"id", "description"})
+    private EquipmentType equipmentType;
 
     @Setter
     @OneToMany(mappedBy = "equipment")
+    @JsonIgnore
     private List<EquipmentBranch> equipmentBranches;
+
+    @Setter
+    @ManyToMany(mappedBy = "equipmentList")
+    @JsonIgnoreProperties({"id"})
+    private List<PriceList> priceLists;
 
     public Equipment(String code, String name) {
         this.code = code;
@@ -78,22 +79,22 @@ public class Equipment implements Serializable {
         this.manufacturer = manufacturer;
     }
 
-    public Equipment(String code, String name, String manufacturer, TypeEquipment typeEquipment) {
+    public Equipment(String code, String name, String manufacturer, EquipmentType equipmentType) {
         this.code = code;
         this.name = name;
         this.manufacturer = manufacturer;
-        this.typeEquipment = typeEquipment;
-    }
-
-    public void addLoanItem(LoanItem loanItem) {
-        if (loanItemList == null)
-            loanItemList = new ArrayList<>();
-        loanItemList.add(loanItem);
+        this.equipmentType = equipmentType;
     }
 
     public void addEquipmentBranch(EquipmentBranch equipmentBranch) {
         if (equipmentBranches == null)
             equipmentBranches = new ArrayList<>();
         equipmentBranches.add(equipmentBranch);
+    }
+
+    public void addPrice(PriceList priceList) {
+        if (priceLists == null)
+            priceLists = new ArrayList<>();
+        priceLists.add(priceList);
     }
 }

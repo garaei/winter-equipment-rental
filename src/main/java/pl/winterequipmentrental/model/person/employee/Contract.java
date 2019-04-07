@@ -1,8 +1,6 @@
 package pl.winterequipmentrental.model.person.employee;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jdk.jfr.Timestamp;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,7 +40,8 @@ public class Contract implements Serializable {
 
     @Setter
     @Column(name = "type_contract")
-    private TypeContract typeContract;
+    @Enumerated(value = EnumType.STRING)
+    private ContractType contractType;
 
     @Setter
     @Column(name = "period_from")
@@ -53,6 +52,11 @@ public class Contract implements Serializable {
     @Column(name = "period_to")
     @Temporal(TemporalType.DATE)
     private Date periodTo;
+
+    @Setter
+    @Column(name = "breaking_date")
+    @Temporal(TemporalType.DATE)
+    private Date dateBreaking;
 
     @Setter
     @Column(name = "id_employee", insertable = false, updatable = false, nullable = false)
@@ -74,14 +78,14 @@ public class Contract implements Serializable {
     @JsonIgnoreProperties({"position", "address", "employeePhones", "loans", "employerContracts", "contract", "user"})
     private Employee employer;
 
-    public Contract(TypeContract typeContract, Employee employee) {
-        this.typeContract = typeContract;
+    public Contract(ContractType contractType, Employee employee) {
+        this.contractType = contractType;
         this.employee = employee;
     }
 
-    public Contract(BigDecimal salary, TypeContract typeContract, Employee employee) {
+    public Contract(BigDecimal salary, ContractType contractType, Employee employee) {
         this.salary = salary;
-        this.typeContract = typeContract;
+        this.contractType = contractType;
         this.employee = employee;
     }
 }

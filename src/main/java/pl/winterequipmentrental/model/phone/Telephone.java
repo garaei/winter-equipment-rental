@@ -14,7 +14,7 @@ import java.io.Serializable;
 public abstract class Telephone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "idPhone", nullable = false, unique = true)
+    @Column(name = "idPhone", nullable = false, unique = true, updatable = false, insertable = false)
     private long id;
 
     @Setter

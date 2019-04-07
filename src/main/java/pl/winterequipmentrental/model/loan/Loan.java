@@ -1,13 +1,15 @@
 package pl.winterequipmentrental.model.loan;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NaturalId;
+import pl.winterequipmentrental.model.account.User;
 import pl.winterequipmentrental.model.branch.Branch;
 import pl.winterequipmentrental.model.person.client.Customer;
-import pl.winterequipmentrental.model.person.employee.Employee;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,7 +25,7 @@ import java.util.List;
 public class Loan implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idLoan", nullable = false, unique = true)
+    @Column(name = "idLoan", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter
@@ -57,6 +59,7 @@ public class Loan implements Serializable {
 
     @Setter
     @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<LoanItem> loanItemList;
 
     @Setter
@@ -66,6 +69,7 @@ public class Loan implements Serializable {
     @Setter
     @ManyToOne
     @JoinColumn(name = "extension_branch", referencedColumnName = "extension", nullable = false)
+    @JsonIgnore
     private Branch branch;
 
     @Setter
@@ -75,16 +79,28 @@ public class Loan implements Serializable {
     @Setter
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_customer")
+    @JsonIgnore
     private Customer customer;
 
     @Setter
-    @Column(name = "ID_EMPLOYEE", insertable = false, updatable = false, nullable = false)
-    private long employeeId;
+    @Column(name = "id_user_create", insertable = false, updatable = false, nullable = false)
+    private long createdByUserId;
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "ID_EMPLOYEE", nullable = false)
-    private Employee employee;
+    @JoinColumn(name = "id_user_create", nullable = false)
+    @JsonIgnore
+    private User createdByUser;
+
+    @Setter
+    @Column(name = "id_user_completed", insertable = false, updatable = false)
+    private long completedByUserId;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "id_user_completed")
+    @JsonIgnore
+    private User completedByUser;
 
     public Loan(String loanNumber, Date rentalDate, boolean status) {
         this.loanNumber = loanNumber;
@@ -92,13 +108,13 @@ public class Loan implements Serializable {
         this.status = status;
     }
 
-    public Loan(String loanNumber, Date rentalDate, boolean status, Branch branch, Customer customer, Employee employee) {
+    public Loan(String loanNumber, Date rentalDate, boolean status, Branch branch, Customer customer, User createdByUser) {
         this.loanNumber = loanNumber;
         this.rentalDate = rentalDate;
         this.status = status;
         this.branch = branch;
         this.customer = customer;
-        this.employee = employee;
+        this.createdByUser = createdByUser;
     }
 
     public void addLoanItem(LoanItem loanItem) {

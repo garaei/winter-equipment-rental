@@ -1,5 +1,6 @@
 package pl.winterequipmentrental.model.branch;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.List;
 public class Branch implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idBranch", nullable = false, unique = true)
+    @Column(name = "id_branch", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter
@@ -32,6 +33,7 @@ public class Branch implements Serializable {
 
     @Setter
     @OneToMany(mappedBy = "branch")
+    @JsonIgnore
     private List<BranchPhone> branchPhones;
 
     @Setter
@@ -41,14 +43,17 @@ public class Branch implements Serializable {
     @Setter
     @OneToOne
     @JoinColumn(name = "id_address")
+    @JsonIgnoreProperties({"employees", "provinceId", "branch", "customers"})
     private Address address;
 
     @Setter
     @OneToMany(mappedBy = "branch")
+    @JsonIgnore
     private List<Loan> loans;
 
     @Setter
     @OneToMany(mappedBy = "branch")
+    @JsonIgnore
     private List<EquipmentBranch> equipmentBranches;
 
     public Branch(String extension) {
@@ -70,5 +75,11 @@ public class Branch implements Serializable {
         if (loans == null)
             loans = new ArrayList<>();
         loans.add(loan);
+    }
+
+    public void addEquipmentBranch(EquipmentBranch equipmentBranch) {
+        if (equipmentBranches == null)
+            equipmentBranches = new ArrayList<>();
+        equipmentBranches.add(equipmentBranch);
     }
 }

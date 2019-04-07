@@ -1,5 +1,7 @@
 package pl.winterequipmentrental.model.equipment;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +16,7 @@ import javax.persistence.*;
 public class EquipmentBranch {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idEquipmentBranch", nullable = false, unique = true)
+    @Column(name = "id_equipment_branch", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     /**
@@ -39,6 +41,7 @@ public class EquipmentBranch {
     @Setter
     @ManyToOne
     @JoinColumn(name = "id_branch", referencedColumnName = "extension")
+    @JsonIgnore
     private Branch branch;
 
     @Setter
@@ -48,6 +51,7 @@ public class EquipmentBranch {
     @Setter
     @ManyToOne
     @JoinColumn(name = "id_equipment", referencedColumnName = "code", nullable = false)
+    @JsonIgnore
     private Equipment equipment;
 
     public EquipmentBranch(Branch branch, Equipment equipment) {

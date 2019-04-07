@@ -1,6 +1,7 @@
 package pl.winterequipmentrental.model.loan;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +21,7 @@ import java.util.Date;
 public class LoanItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idLoanItem", nullable = false, unique = true)
+    @Column(name = "idLoanItem", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter
@@ -28,13 +29,13 @@ public class LoanItem implements Serializable {
     private BigDecimal charge;
 
     @Setter
-    @Column(name = "rentalDate", nullable = false)
+    @Column(name = "rental_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date rentalDate;
 
     @Setter
-    @Column(name = "dateOfReturn")
+    @Column(name = "date_return")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOfReturn;
 
@@ -54,6 +55,7 @@ public class LoanItem implements Serializable {
     @Setter
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "loan_number", referencedColumnName = "loan_number")
+    @JsonIgnore
     private Loan loan;
 
     @Setter
@@ -63,15 +65,17 @@ public class LoanItem implements Serializable {
     @Setter
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "code_equipment", referencedColumnName = "code")
+    @JsonIgnore
     private Equipment equipment;
 
     @Setter
     @Column(name = "relief", insertable = false, updatable = false, length = 40)
-    private String typeReliefNaturalId;
+    private String typeReliefName;
 
     @Setter
     @ManyToOne
     @JoinColumn(name = "relief", referencedColumnName = "name")
+    @JsonIgnore
     private TypeRelief typeRelief;
 
     public LoanItem(boolean status, Loan loan, Equipment equipment) {

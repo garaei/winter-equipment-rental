@@ -1,5 +1,6 @@
 package pl.winterequipmentrental.model.phone;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,21 +14,18 @@ import javax.persistence.*;
 @Table(name = "BranchPhones")
 public class BranchPhone extends Telephone {
     @Setter
-    @Column(name = "idBranchPhone", insertable = false, updatable = false, nullable = false)
+    @Column(name = "id_branch_phone", insertable = false, updatable = false, nullable = false)
     private String extensionBranch;
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "id_branch", referencedColumnName = "extension", nullable = false)
+    @JoinColumn(name = "id_branch_phone", referencedColumnName = "extension", nullable = false)
+    @JsonIgnore
     private Branch branch;
 
     @Setter
-    @Column(name = "id_type_phone", insertable = false, updatable = false, nullable = false)
-    private String typePhoneId;
-
-    @Setter
-    @ManyToOne
-    @JoinColumn(name = "id_type_phone", referencedColumnName = "name", nullable = false)
+    @Column(name = "type_phone")
+    @Enumerated(value = EnumType.STRING)
     private TypePhone typePhone;
 
     public BranchPhone(String numberPhone, Branch branch, TypePhone typePhone) {
@@ -36,5 +34,3 @@ public class BranchPhone extends Telephone {
         this.typePhone = typePhone;
     }
 }
-
-//TODO Zamiana relacji ManyToOne z TypePhone na enum lub interfejs
