@@ -2,18 +2,18 @@ package pl.winterequipmentrental.model.person.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.winterequipmentrental.model.account.User;
-import pl.winterequipmentrental.model.address.Address;
+import pl.winterequipmentrental.model.address.EmployeeAddress;
 import pl.winterequipmentrental.model.person.Person;
 import pl.winterequipmentrental.model.phone.EmployeePhone;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,7 +22,7 @@ import java.util.List;
 public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID_EMPLOYEE", insertable =  false, updatable = false, nullable = false, unique = true)
+    @Column(name = "id_employee", insertable =  false, updatable = false, nullable = false, unique = true)
     private long id;
 
     @Setter
@@ -34,7 +34,7 @@ public class Employee implements Serializable {
     private String email;
 
     @Setter
-    @Column(name = "hired", nullable = false)
+    @Column(name = "hired", nullable = false, columnDefinition = "BIT DEFAULT 0")
     private boolean hired;
 
     @Setter
@@ -42,39 +42,47 @@ public class Employee implements Serializable {
     private Person person;
 
     @Setter
-    @OneToOne(mappedBy = "employee")
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.REFRESH)
     @JsonIgnoreProperties({"password", "createDate", "updateDate", "roles", "employeeId", "employee"})
     private User user;
 
     @Setter
-    @OneToOne(mappedBy = "employee")
-    @JsonIgnoreProperties({"id", "salary", "company", "conditionsEmployment", "employeeId", "employee", "employerId", "employer"})
-    private Contract contract;
+    @Column(name = "contract_number", unique = true, length = 12)
+    private String contractNumber;
 
     @Setter
+    @OneToOne(mappedBy = "employee")
+    @JsonIgnore
+    private Contract contract;
+
     @OneToMany(mappedBy = "employer")
     @JsonIgnore
-    private List<Contract> employerContracts;
+    private Set<Contract> employerContracts;
 
     @Setter
     @Column(name = "id_position", insertable =  false, updatable = false, nullable = false)
     private String positionId;
 
     @Setter
-    @ManyToOne
-    @JoinColumn(name = "id_position", referencedColumnName = "name", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "id_position", referencedColumnName = "name")
     @JsonIgnore
     private Position position;
 
     @Setter
-    @ManyToOne
-    @JoinColumn(name = "id_address")
-    private Address address;
+    @Column(name = "id_address", insertable = false, updatable = false)
+    private long addressId;
 
     @Setter
-    @OneToMany(mappedBy = "employee")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_address")
+    @JsonIgnoreProperties({"employees", "provinceId"})
+    private EmployeeAddress address;
+
+    @Setter
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"id", "employeeId", "employee"})
-    private List<EmployeePhone> employeePhones;
+    private Set<EmployeePhone> employeePhones;
 
     public Employee(String pesel,
                     String email,
@@ -90,11 +98,13 @@ public class Employee implements Serializable {
                     String email,
                     Person person,
                     Contract contract,
+                    String contractNumber,
                     Position position) {
         this.pesel = pesel;
         this.email = email;
         this.person = person;
         this.contract = contract;
+        this.contractNumber = contractNumber;
         this.position = position;
     }
 
@@ -102,44 +112,15 @@ public class Employee implements Serializable {
                     String email,
                     Person person,
                     Contract contract,
+                    String contractNumber,
                     Position position,
-                    Address address) {
+                    EmployeeAddress address) {
         this.pesel = pesel;
         this.email = email;
         this.person = person;
         this.contract = contract;
+        this.contractNumber = contractNumber;
         this.position = position;
         this.address = address;
-    }
-
-    public Employee(String pesel,
-                    String email,
-                    Person person,
-                    Contract contract,
-                    Position position,
-                    Address address,
-                    List<EmployeePhone> employeePhones) {
-        this.pesel = pesel;
-        this.email = email;
-        this.person = person;
-        this.contract = contract;
-        this.position = position;
-        this.address = address;
-        this.employeePhones = employeePhones;
-    }
-
-
-    public void addEmployeePhone(EmployeePhone employeePhone) {
-        if (employeePhones == null)
-            employeePhones = new ArrayList<>();
-        employeePhones.add(employeePhone);
-    }
-
-    public void addEmployerContract(Contract contract) {
-        if (employerContracts == null)
-            employerContracts = new ArrayList<>();
-        employerContracts.add(contract);
     }
 }
-
-// TODO Add new column -> number_account_bank or new table with this number and then this class should contain a relation

@@ -7,8 +7,8 @@ import pl.winterequipmentrental.model.equipment.Equipment;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,11 +29,11 @@ public class PriceList implements Serializable {
     private double price;
 
     @Setter
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "Pricelist_Equipment",
         joinColumns = {@JoinColumn(name = "id_price_list")},
         inverseJoinColumns = {@JoinColumn(name = "id_equipment")})
-    private List<Equipment> equipmentList;
+    private Set<Equipment> equipmentList;
 
     public PriceList(short time, double price) {
         this.time = time;
@@ -42,7 +42,7 @@ public class PriceList implements Serializable {
 
     public void addEquipment(Equipment equipment) {
         if (equipmentList == null)
-            equipmentList = new ArrayList<>();
+            equipmentList = new HashSet<>();
         equipmentList.add(equipment);
     }
 }

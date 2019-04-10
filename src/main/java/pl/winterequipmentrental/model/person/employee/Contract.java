@@ -22,7 +22,7 @@ public class Contract implements Serializable {
     private long id;
 
     @Setter
-    @Column(name = "contract_number", unique = true, nullable = false, length = 10)
+    @Column(name = "contract_number", unique = true, nullable = false, length = 12)
     private String contractNumber;
 
     @Setter
@@ -63,9 +63,9 @@ public class Contract implements Serializable {
     private long employeeId;
 
     @Setter
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_employee", nullable = false, referencedColumnName = "ID_EMPLOYEE")
-    @JsonIgnoreProperties({"position", "address", "employeePhones", "loans", "employerContracts", "contract", "user"})
+    @OneToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "id_employee")
+    @JsonIgnoreProperties({"id", "user", "contract", "employerContracts", "employeePhones"})
     private Employee employee;
 
     @Setter
@@ -73,19 +73,32 @@ public class Contract implements Serializable {
     private long employerId;
 
     @Setter
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_employer", nullable = false, referencedColumnName = "ID_EMPLOYEE")
-    @JsonIgnoreProperties({"position", "address", "employeePhones", "loans", "employerContracts", "contract", "user"})
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "id_employer")
+    @JsonIgnoreProperties({"id", "user", "contract", "employerContracts", "employeePhones", "address"})
     private Employee employer;
 
-    public Contract(ContractType contractType, Employee employee) {
-        this.contractType = contractType;
+    public Contract(String contractNumber, Employee employee, Employee employer) {
+        this.contractNumber = contractNumber;
         this.employee = employee;
+        this.employer = employer;
     }
 
-    public Contract(BigDecimal salary, ContractType contractType, Employee employee) {
+    public Contract(String contractNumber, BigDecimal salary, Company company, Employee employee, Employee employer) {
+        this.contractNumber = contractNumber;
         this.salary = salary;
+        this.company = company;
+        this.employee = employee;
+        this.employer = employer;
+    }
+
+    public Contract(String contractNumber, BigDecimal salary, Company company, String conditionsEmployment, ContractType contractType, Employee employee, Employee employer) {
+        this.contractNumber = contractNumber;
+        this.salary = salary;
+        this.company = company;
+        this.conditionsEmployment = conditionsEmployment;
         this.contractType = contractType;
         this.employee = employee;
+        this.employer = employer;
     }
 }

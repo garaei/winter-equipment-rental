@@ -13,11 +13,11 @@ import java.util.Set;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Role")
+@Table(name = "Roles")
 public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idRole", unique = true, nullable = false, insertable = false, updatable = false)
+    @Column(name = "id_role", unique = true, nullable = false, insertable = false, updatable = false)
     private long id;
 
     @Setter
@@ -28,8 +28,7 @@ public class Role implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @Setter
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.REFRESH)
     @JsonIgnore
     private Set<User> users;
 

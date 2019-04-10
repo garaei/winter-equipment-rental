@@ -11,17 +11,17 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Telephone implements Serializable {
+public abstract class Phone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    @Column(name = "idPhone", nullable = false, unique = true, updatable = false, insertable = false)
+    @Column(name = "id_phone", nullable = false, unique = true, updatable = false, insertable = false)
     private long id;
 
     @Setter
     @Column(name = "number", nullable = false, unique = true, length = 9)
-    private String numberPhone;
+    private String phoneNumber;
 
-    public Telephone(String numberPhone) {
-        this.numberPhone = numberPhone;
+    public Phone(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

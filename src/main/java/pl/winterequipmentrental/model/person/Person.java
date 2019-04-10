@@ -28,7 +28,7 @@ public class Person implements Serializable {
     private String lastName;
 
     @Setter
-    @Column(name = "id_number", nullable = false, unique = true, length = 10)
+    @Column(name = "id_number", unique = true, length = 10)
     private String IDNumber;
 
     public Person(String firstName, String lastName, String IDNumber) {

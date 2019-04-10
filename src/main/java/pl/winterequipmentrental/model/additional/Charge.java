@@ -33,19 +33,14 @@ public class Charge implements Serializable {
     private Date dateOfPayment;
 
     @Setter
-    @Column(name = "loan_number", insertable = false, updatable = false, nullable = false, length = 20)
+    @Column(name = "loan_number", insertable = false, updatable = false, length = 20)
     private String loanNumber;
 
     @Setter
-    @OneToOne
-    @JoinColumn(name = "loan_number", referencedColumnName = "loan_number", nullable = false)
+    @OneToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "loan_number", referencedColumnName = "loan_number")
     @JsonIgnore
     private Loan loan;
-
-    public Charge(BigDecimal charge, Loan loan) {
-        this.charge = charge;
-        this.loan = loan;
-    }
 
     public Charge(BigDecimal charge, Date dateOfPayment, Loan loan) {
         this.charge = charge;

@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "EquipmentTypes")
+@Table(name = "Equipment_types")
 public class EquipmentType implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

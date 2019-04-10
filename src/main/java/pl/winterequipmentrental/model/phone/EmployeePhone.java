@@ -11,15 +11,15 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "PhoneEmployees")
-public class EmployeePhone extends Telephone {
+@Table(name = "EmployeePhones")
+public class EmployeePhone extends Phone {
     @Setter
     @Column(name = "id_employee", insertable = false, updatable = false, nullable = false)
     private long employeeId;
 
     @Setter
-    @ManyToOne
-    @JoinColumn(name = "id_employee", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "id_employee")
     @JsonIgnore
     private Employee employee;
 

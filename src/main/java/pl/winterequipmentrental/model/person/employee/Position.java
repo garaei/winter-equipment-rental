@@ -8,7 +8,6 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,7 +17,7 @@ import java.util.List;
 public class Position implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idPosition", nullable = false, unique = true, insertable = false, updatable = false)
+    @Column(name = "id_position", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter
@@ -31,7 +30,6 @@ public class Position implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @Setter
     @OneToMany(mappedBy = "position")
     @JsonIgnore
     private List<Employee> employees;
@@ -43,11 +41,5 @@ public class Position implements Serializable {
     public Position(String name, String description) {
         this.name = name;
         this.description = description;
-    }
-
-    public void addEmployee(Employee employee) {
-        if (employees == null)
-            employees = new ArrayList<>();
-        employees.add(employee);
     }
 }

@@ -1,24 +1,18 @@
 package pl.winterequipmentrental.model.address;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.winterequipmentrental.model.branch.Branch;
-import pl.winterequipmentrental.model.person.client.Customer;
-import pl.winterequipmentrental.model.person.employee.Employee;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Address")
-public class Address implements Serializable {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_address", nullable = false, unique = true, insertable = false, updatable = false)
@@ -49,11 +43,6 @@ public class Address implements Serializable {
     private String apartmentNumber;
 
     @Setter
-    @OneToMany(mappedBy = "address")
-    @JsonIgnore
-    private List<Employee> employees;
-
-    @Setter
     @Column(name = "id_province", insertable = false, updatable = false, nullable = false)
     private String provinceId;
 
@@ -63,34 +52,30 @@ public class Address implements Serializable {
     @JsonIgnoreProperties("id")
     private Province province;
 
-    @Setter
-    @OneToOne(mappedBy = "address")
-    @JsonIgnore
-    private Branch branch;
+    public Address(String city, String locality, String zipCode, String buildingNumber, Province province) {
+        this.city = city;
+        this.locality = locality;
+        this.zipCode = zipCode;
+        this.buildingNumber = buildingNumber;
+        this.province = province;
+    }
 
-    @Setter
-    @OneToMany(mappedBy = "address")
-    @JsonIgnore
-    private List<Customer> customers;
+    public Address(String city, String locality, String street, String zipCode, String buildingNumber, Province province) {
+        this.city = city;
+        this.locality = locality;
+        this.street = street;
+        this.zipCode = zipCode;
+        this.buildingNumber = buildingNumber;
+        this.province = province;
+    }
 
-    public Address(String city, String locality, String street, String zipCode, String buildingNumber, String apartmentNumber) {
+    public Address(String city, String locality, String street, String zipCode, String buildingNumber, String apartmentNumber, Province province) {
         this.city = city;
         this.locality = locality;
         this.street = street;
         this.zipCode = zipCode;
         this.buildingNumber = buildingNumber;
         this.apartmentNumber = apartmentNumber;
-    }
-
-    public void addEmployee(Employee employee) {
-        if (employees == null)
-            employees = new ArrayList<>();
-        employees.add(employee);
-    }
-
-    public void addCustomer(Customer customer) {
-        if (customers == null)
-            customers = new ArrayList<>();
-        customers.add(customer);
+        this.province = province;
     }
 }

@@ -6,15 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+import pl.winterequipmentrental.model.address.BranchAddress;
 import pl.winterequipmentrental.model.equipment.EquipmentBranch;
-import pl.winterequipmentrental.model.address.Address;
 import pl.winterequipmentrental.model.loan.Loan;
 import pl.winterequipmentrental.model.phone.BranchPhone;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -32,54 +31,31 @@ public class Branch implements Serializable {
     private String extension;
 
     @Setter
-    @OneToMany(mappedBy = "branch")
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<BranchPhone> branchPhones;
+    private Set<BranchPhone> branchPhones;
 
     @Setter
-    @Column(name = "id_address", insertable = false, updatable = false, nullable = false)
+    @Column(name = "id_address", insertable = false, updatable = false)
     private long addressId;
 
     @Setter
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_address")
-    @JsonIgnoreProperties({"employees", "provinceId", "branch", "customers"})
-    private Address address;
+    @JsonIgnoreProperties({"branches", "provinceId"})
+    private BranchAddress address;
 
-    @Setter
     @OneToMany(mappedBy = "branch")
     @JsonIgnore
-    private List<Loan> loans;
+    private Set<Loan> loans;
 
     @Setter
-    @OneToMany(mappedBy = "branch")
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<EquipmentBranch> equipmentBranches;
+    private Set<EquipmentBranch> equipmentBranches;
 
-    public Branch(String extension) {
-        this.extension = extension;
-    }
-
-    public Branch(String extension, Address address) {
+    public Branch(String extension, BranchAddress address) {
         this.extension = extension;
         this.address = address;
-    }
-
-    public void addBranchPhone(BranchPhone branchPhone) {
-        if (branchPhones == null)
-            branchPhones = new ArrayList<>();
-        branchPhones.add(branchPhone);
-    }
-
-    public void addLoan(Loan loan) {
-        if (loans == null)
-            loans = new ArrayList<>();
-        loans.add(loan);
-    }
-
-    public void addEquipmentBranch(EquipmentBranch equipmentBranch) {
-        if (equipmentBranches == null)
-            equipmentBranches = new ArrayList<>();
-        equipmentBranches.add(equipmentBranch);
     }
 }

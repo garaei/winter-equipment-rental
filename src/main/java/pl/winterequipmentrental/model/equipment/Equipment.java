@@ -10,17 +10,16 @@ import pl.winterequipmentrental.model.additional.PriceList;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "Equipment")
+@Table(name = "Equipments")
 public class Equipment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idEquipment", nullable = false, unique = true, insertable = false, updatable = false)
+    @Column(name = "id_equipment", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter
@@ -45,7 +44,7 @@ public class Equipment implements Serializable {
     private String height;
 
     @Setter
-    @Column(name = "size", nullable = false, length = 15)
+    @Column(name = "size", length = 15)
     private String size;
 
     @Setter
@@ -53,31 +52,20 @@ public class Equipment implements Serializable {
     private String typeEquipmentId;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "id_type_equipment", referencedColumnName = "name")
     @JsonIgnoreProperties({"id", "description"})
     private EquipmentType equipmentType;
 
     @Setter
-    @OneToMany(mappedBy = "equipment")
+    @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<EquipmentBranch> equipmentBranches;
+    private Set<EquipmentBranch> equipmentBranches;
 
     @Setter
-    @ManyToMany(mappedBy = "equipmentList")
+    @ManyToMany(mappedBy = "equipmentList", cascade = {CascadeType.PERSIST})
     @JsonIgnoreProperties({"id"})
-    private List<PriceList> priceLists;
-
-    public Equipment(String code, String name) {
-        this.code = code;
-        this.name = name;
-    }
-
-    public Equipment(String code, String name, String manufacturer) {
-        this.code = code;
-        this.name = name;
-        this.manufacturer = manufacturer;
-    }
+    private Set<PriceList> priceLists;
 
     public Equipment(String code, String name, String manufacturer, EquipmentType equipmentType) {
         this.code = code;
@@ -86,15 +74,21 @@ public class Equipment implements Serializable {
         this.equipmentType = equipmentType;
     }
 
-    public void addEquipmentBranch(EquipmentBranch equipmentBranch) {
-        if (equipmentBranches == null)
-            equipmentBranches = new ArrayList<>();
-        equipmentBranches.add(equipmentBranch);
+    public Equipment(String code, String name, String manufacturer, String size, EquipmentType equipmentType) {
+        this.code = code;
+        this.name = name;
+        this.manufacturer = manufacturer;
+        this.size = size;
+        this.equipmentType = equipmentType;
     }
 
-    public void addPrice(PriceList priceList) {
-        if (priceLists == null)
-            priceLists = new ArrayList<>();
-        priceLists.add(priceList);
+    public Equipment(String code, String name, String manufacturer, String width, String height, String size, EquipmentType equipmentType) {
+        this.code = code;
+        this.name = name;
+        this.manufacturer = manufacturer;
+        this.width = width;
+        this.height = height;
+        this.size = size;
+        this.equipmentType = equipmentType;
     }
 }

@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class Province implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idProvince", nullable = false, unique = true, insertable = false, updatable = false)
+    @Column(name = "id_province", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter

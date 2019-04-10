@@ -1,9 +1,6 @@
 package pl.winterequipmentrental.model.person.client;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -31,4 +28,14 @@ public class Company implements Serializable {
     @Column(name = "company_phone", length = 9)
     private String companyPhone;
 
+    public Company(String name, String nip) {
+        this.name = name;
+        this.nip = nip;
+    }
+
+    public Company(String name, String nip, String regon) {
+        this.name = name;
+        this.nip = nip;
+        this.regon = regon;
+    }
 }

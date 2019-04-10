@@ -59,7 +59,7 @@ public class User implements Serializable {
     private Date updateDate;
 
     @Setter
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REFRESH)
     @JoinTable(name = "Users_roles",
             joinColumns = {@JoinColumn(name = "id_user")},
             inverseJoinColumns = {@JoinColumn(name = "id_role")})
@@ -67,19 +67,18 @@ public class User implements Serializable {
     private Set<Role> roles;
 
     @Setter
-    @Column(name = "ID_EMPLOYEE", insertable = false, updatable = false, nullable = false)
+    @Column(name = "id_employee", insertable = false, updatable = false)
     private long employeeId;
 
     @Setter
-    @OneToOne
-    @JoinColumn(name = "ID_EMPLOYEE")
+    @OneToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "id_employee")
     @JsonIgnore
     private Employee employee;
 
     /**
      * Loans that this user created
      */
-    @Setter
     @OneToMany(mappedBy = "createdByUser")
     @JsonIgnore
     private Set<Loan> loansCreated;
@@ -87,7 +86,6 @@ public class User implements Serializable {
     /**
      * Loans which this user accepted and set as completed
      */
-    @Setter
     @OneToMany(mappedBy = "completedByUser")
     @JsonIgnore
     private Set<Loan> completedLoans;
@@ -105,21 +103,17 @@ public class User implements Serializable {
         this.employee = employee;
     }
 
+    public User(String login, String password, boolean active, Set<Role> roles, Employee employee) {
+        this.login = login;
+        this.password = password;
+        this.active = active;
+        this.roles = roles;
+        this.employee = employee;
+    }
+
     public void addRole(Role role) {
         if (roles == null)
             roles = new HashSet<>();
         roles.add(role);
-    }
-
-    public void addLoanInLoansCreatedList(Loan loan) {
-        if (loansCreated == null)
-            loansCreated = new HashSet<>();
-        loansCreated.add(loan);
-    }
-
-    public void addLoanInLoanCompletedList(Loan loan) {
-        if (completedLoans == null)
-            completedLoans = new HashSet<>();
-        completedLoans.add(loan);
     }
 }

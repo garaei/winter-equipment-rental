@@ -1,7 +1,6 @@
 package pl.winterequipmentrental.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "EquipmentBranch")
+@Table(name = "Equipment_branch")
 public class EquipmentBranch {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,14 +23,14 @@ public class EquipmentBranch {
      * which are available current time
      */
     @Setter
-    @Column(name = "current_satus", nullable = false)
+    @Column(name = "current_status", nullable = false, columnDefinition = "INT DEFAULT 0")
     private int currentStatus;
 
     /**
      * stores information about the amount of equipment in the branch
      */
     @Setter
-    @Column(name = "store_resources", nullable = false)
+    @Column(name = "store_resources", nullable = false, columnDefinition = "INT DEFAULT 0")
     private int storeResources;
 
     @Setter
@@ -39,7 +38,7 @@ public class EquipmentBranch {
     private String extensionBranch;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "id_branch", referencedColumnName = "extension")
     @JsonIgnore
     private Branch branch;
@@ -49,7 +48,7 @@ public class EquipmentBranch {
     private String equipmentCode;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "id_equipment", referencedColumnName = "code", nullable = false)
     @JsonIgnore
     private Equipment equipment;

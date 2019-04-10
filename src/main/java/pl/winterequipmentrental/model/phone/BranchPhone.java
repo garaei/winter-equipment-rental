@@ -12,14 +12,14 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Table(name = "BranchPhones")
-public class BranchPhone extends Telephone {
+public class BranchPhone extends Phone {
     @Setter
     @Column(name = "id_branch_phone", insertable = false, updatable = false, nullable = false)
     private String extensionBranch;
 
     @Setter
-    @ManyToOne
-    @JoinColumn(name = "id_branch_phone", referencedColumnName = "extension", nullable = false)
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "id_branch_phone", referencedColumnName = "extension")
     @JsonIgnore
     private Branch branch;
 

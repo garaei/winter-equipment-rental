@@ -1,6 +1,5 @@
 package pl.winterequipmentrental.model.loan;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,11 +16,11 @@ import java.util.Date;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "LoanItem")
+@Table(name = "Loan_items")
 public class LoanItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idLoanItem", nullable = false, unique = true, insertable = false, updatable = false)
+    @Column(name = "id_loan_item", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter
@@ -45,7 +44,7 @@ public class LoanItem implements Serializable {
      * 1 - the loan item is completed
      */
     @Setter
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", nullable = false, columnDefinition = "BIT DEFAULT 0")
     private boolean status;
 
     @Setter
@@ -53,17 +52,17 @@ public class LoanItem implements Serializable {
     private String loanNumber;
 
     @Setter
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "loan_number", referencedColumnName = "loan_number")
     @JsonIgnore
     private Loan loan;
 
     @Setter
-    @Column(name = "code_equipment", insertable = false, updatable = false, nullable = false)
+    @Column(name = "code_equipment", insertable = false, updatable = false)
     private String equipmentId;
 
     @Setter
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "code_equipment", referencedColumnName = "code")
     @JsonIgnore
     private Equipment equipment;
@@ -73,7 +72,7 @@ public class LoanItem implements Serializable {
     private String typeReliefName;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "relief", referencedColumnName = "name")
     @JsonIgnore
     private TypeRelief typeRelief;
@@ -82,6 +81,21 @@ public class LoanItem implements Serializable {
         this.status = status;
         this.loan = loan;
         this.equipment = equipment;
+    }
+
+    public LoanItem(BigDecimal charge, boolean status, Loan loan, Equipment equipment) {
+        this.charge = charge;
+        this.status = status;
+        this.loan = loan;
+        this.equipment = equipment;
+    }
+
+    public LoanItem(BigDecimal charge, boolean status, Loan loan, Equipment equipment, TypeRelief typeRelief) {
+        this.charge = charge;
+        this.status = status;
+        this.loan = loan;
+        this.equipment = equipment;
+        this.typeRelief = typeRelief;
     }
 }
 

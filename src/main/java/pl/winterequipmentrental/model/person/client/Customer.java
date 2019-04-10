@@ -1,17 +1,18 @@
 package pl.winterequipmentrental.model.person.client;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.winterequipmentrental.model.address.Address;
+import pl.winterequipmentrental.model.address.CustomerAddress;
 import pl.winterequipmentrental.model.loan.Loan;
 import pl.winterequipmentrental.model.person.Person;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,7 +21,7 @@ import java.util.List;
 public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idCustomer", nullable = false, unique = true, insertable = false, updatable = false)
+    @Column(name = "id_customer", nullable = false, unique = true, insertable = false, updatable = false)
     private long id;
 
     @Setter
@@ -29,6 +30,7 @@ public class Customer implements Serializable {
 
     @Setter
     @Column(name = "pesel", unique = true, length = 11)
+    @JsonIgnore
     private String pesel;
 
     @Setter
@@ -48,34 +50,38 @@ public class Customer implements Serializable {
     private long addressId;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_address")
-    private Address address;
+    @JsonIgnoreProperties({"customers", "provinceId"})
+    private CustomerAddress address;
 
-    @Setter
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
-    private List<Loan> loans;
+    private Set<Loan> loans;
 
     public Customer(Person person) {
         this.person = person;
     }
 
-    public Customer(String email, String pesel, Person person) {
-        this.email = email;
-        this.pesel = pesel;
-        this.person = person;
-    }
-
-    public Customer(String email, Person person, Company company) {
-        this.email = email;
+    public Customer(Person person, Company company) {
         this.person = person;
         this.company = company;
     }
 
-    public void addLoan(Loan loan) {
-        if (loans == null)
-            loans = new ArrayList<>();
-        loans.add(loan);
+    public Customer(String email, String pesel, String numberPhone, Person person, CustomerAddress address) {
+        this.email = email;
+        this.pesel = pesel;
+        this.numberPhone = numberPhone;
+        this.person = person;
+        this.address = address;
+    }
+
+    public Customer(String email, String pesel, String numberPhone, Person person, Company company, CustomerAddress address) {
+        this.email = email;
+        this.pesel = pesel;
+        this.numberPhone = numberPhone;
+        this.person = person;
+        this.company = company;
+        this.address = address;
     }
 }
