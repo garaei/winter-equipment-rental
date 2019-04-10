@@ -3,8 +3,8 @@ package pl.winterequipmentrental.model.account;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NaturalId;
@@ -18,8 +18,8 @@ import java.util.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
 @Table(name = "Users")
+@Builder
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -89,27 +89,6 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "completedByUser")
     @JsonIgnore
     private Set<Loan> completedLoans;
-
-    public User(String login, String password, boolean active) {
-        this.login = login;
-        this.password = password;
-        this.active = active;
-    }
-
-    public User(String login, String password, boolean active, Employee employee) {
-        this.login = login;
-        this.password = password;
-        this.active = active;
-        this.employee = employee;
-    }
-
-    public User(String login, String password, boolean active, Set<Role> roles, Employee employee) {
-        this.login = login;
-        this.password = password;
-        this.active = active;
-        this.roles = roles;
-        this.employee = employee;
-    }
 
     public void addRole(Role role) {
         if (roles == null)

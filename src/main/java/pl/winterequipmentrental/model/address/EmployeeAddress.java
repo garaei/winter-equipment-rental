@@ -17,15 +17,30 @@ public class EmployeeAddress extends Address {
     @JsonIgnore
     private Employee employee;
 
-    public EmployeeAddress(String city, String locality, String zipCode, String buildingNumber, Province province) {
+    public EmployeeAddress(String city,
+                           String locality,
+                           String zipCode,
+                           String buildingNumber,
+                           Province province) {
         super(city, locality, zipCode, buildingNumber, province);
     }
 
-    public EmployeeAddress(String city, String locality, String street, String zipCode, String buildingNumber, Province province) {
+    public EmployeeAddress(String city,
+                           String locality,
+                           String street,
+                           String zipCode,
+                           String buildingNumber,
+                           Province province) {
         super(city, locality, street, zipCode, buildingNumber, province);
     }
 
-    public EmployeeAddress(String city, String locality, String street, String zipCode, String buildingNumber, String apartmentNumber, Province province) {
+    public EmployeeAddress(String city,
+                           String locality,
+                           String street,
+                           String zipCode,
+                           String buildingNumber,
+                           String apartmentNumber,
+                           Province province) {
         super(city, locality, street, zipCode, buildingNumber, apartmentNumber, province);
     }
 }

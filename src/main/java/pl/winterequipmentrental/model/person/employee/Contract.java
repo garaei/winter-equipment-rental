@@ -1,8 +1,8 @@
 package pl.winterequipmentrental.model.person.employee;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.winterequipmentrental.model.person.client.Company;
 
@@ -13,8 +13,8 @@ import java.util.Date;
 
 @Entity
 @Getter
-@NoArgsConstructor
 @Table(name = "Contracts")
+@Builder
 public class Contract implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -77,28 +77,4 @@ public class Contract implements Serializable {
     @JoinColumn(name = "id_employer")
     @JsonIgnoreProperties({"id", "user", "contract", "employerContracts", "employeePhones", "address"})
     private Employee employer;
-
-    public Contract(String contractNumber, Employee employee, Employee employer) {
-        this.contractNumber = contractNumber;
-        this.employee = employee;
-        this.employer = employer;
-    }
-
-    public Contract(String contractNumber, BigDecimal salary, Company company, Employee employee, Employee employer) {
-        this.contractNumber = contractNumber;
-        this.salary = salary;
-        this.company = company;
-        this.employee = employee;
-        this.employer = employer;
-    }
-
-    public Contract(String contractNumber, BigDecimal salary, Company company, String conditionsEmployment, ContractType contractType, Employee employee, Employee employer) {
-        this.contractNumber = contractNumber;
-        this.salary = salary;
-        this.company = company;
-        this.conditionsEmployment = conditionsEmployment;
-        this.contractType = contractType;
-        this.employee = employee;
-        this.employer = employer;
-    }
 }

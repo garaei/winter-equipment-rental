@@ -1,8 +1,8 @@
 package pl.winterequipmentrental.model.loan;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NaturalId;
@@ -18,8 +18,8 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
 @Table(name = "Loans")
+@Builder
 public class Loan implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -99,12 +99,4 @@ public class Loan implements Serializable {
     @JoinColumn(name = "id_user_completed")
     @JsonIgnore
     private User completedByUser;
-
-    public Loan(String loanNumber, boolean status, Branch branch, Customer customer, User createdByUser) {
-        this.loanNumber = loanNumber;
-        this.status = status;
-        this.branch = branch;
-        this.customer = customer;
-        this.createdByUser = createdByUser;
-    }
 }

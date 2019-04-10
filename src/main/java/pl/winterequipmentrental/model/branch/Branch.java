@@ -2,8 +2,8 @@ package pl.winterequipmentrental.model.branch;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import pl.winterequipmentrental.model.address.BranchAddress;
@@ -17,8 +17,8 @@ import java.util.Set;
 
 @Entity
 @Getter
-@NoArgsConstructor
 @Table(name = "Branch")
+@Builder
 public class Branch implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,7 +32,6 @@ public class Branch implements Serializable {
 
     @Setter
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
-    @JsonIgnore
     private Set<BranchPhone> branchPhones;
 
     @Setter
@@ -53,9 +52,4 @@ public class Branch implements Serializable {
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<EquipmentBranch> equipmentBranches;
-
-    public Branch(String extension, BranchAddress address) {
-        this.extension = extension;
-        this.address = address;
-    }
 }

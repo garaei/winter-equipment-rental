@@ -2,8 +2,8 @@ package pl.winterequipmentrental.model.equipment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import pl.winterequipmentrental.model.additional.PriceList;
@@ -14,8 +14,8 @@ import java.util.Set;
 
 @Entity
 @Getter
-@NoArgsConstructor
 @Table(name = "Equipments")
+@Builder
 public class Equipment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -66,29 +66,4 @@ public class Equipment implements Serializable {
     @ManyToMany(mappedBy = "equipmentList", cascade = {CascadeType.PERSIST})
     @JsonIgnoreProperties({"id"})
     private Set<PriceList> priceLists;
-
-    public Equipment(String code, String name, String manufacturer, EquipmentType equipmentType) {
-        this.code = code;
-        this.name = name;
-        this.manufacturer = manufacturer;
-        this.equipmentType = equipmentType;
-    }
-
-    public Equipment(String code, String name, String manufacturer, String size, EquipmentType equipmentType) {
-        this.code = code;
-        this.name = name;
-        this.manufacturer = manufacturer;
-        this.size = size;
-        this.equipmentType = equipmentType;
-    }
-
-    public Equipment(String code, String name, String manufacturer, String width, String height, String size, EquipmentType equipmentType) {
-        this.code = code;
-        this.name = name;
-        this.manufacturer = manufacturer;
-        this.width = width;
-        this.height = height;
-        this.size = size;
-        this.equipmentType = equipmentType;
-    }
 }

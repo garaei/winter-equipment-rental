@@ -1,8 +1,8 @@
 package pl.winterequipmentrental.model.loan;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import pl.winterequipmentrental.model.additional.TypeRelief;
@@ -15,8 +15,8 @@ import java.util.Date;
 
 @Entity
 @Getter
-@NoArgsConstructor
 @Table(name = "Loan_items")
+@Builder
 public class LoanItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -76,27 +76,6 @@ public class LoanItem implements Serializable {
     @JoinColumn(name = "relief", referencedColumnName = "name")
     @JsonIgnore
     private TypeRelief typeRelief;
-
-    public LoanItem(boolean status, Loan loan, Equipment equipment) {
-        this.status = status;
-        this.loan = loan;
-        this.equipment = equipment;
-    }
-
-    public LoanItem(BigDecimal charge, boolean status, Loan loan, Equipment equipment) {
-        this.charge = charge;
-        this.status = status;
-        this.loan = loan;
-        this.equipment = equipment;
-    }
-
-    public LoanItem(BigDecimal charge, boolean status, Loan loan, Equipment equipment, TypeRelief typeRelief) {
-        this.charge = charge;
-        this.status = status;
-        this.loan = loan;
-        this.equipment = equipment;
-        this.typeRelief = typeRelief;
-    }
 }
 
 

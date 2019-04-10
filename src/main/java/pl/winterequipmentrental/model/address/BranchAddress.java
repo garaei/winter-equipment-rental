@@ -19,15 +19,30 @@ public class BranchAddress extends Address {
     @JsonIgnore
     private Branch branch;
 
-    public BranchAddress(String city, String locality, String zipCode, String buildingNumber, Province province) {
+    public BranchAddress(String city,
+                         String locality,
+                         String zipCode,
+                         String buildingNumber,
+                         Province province) {
         super(city, locality, zipCode, buildingNumber, province);
     }
 
-    public BranchAddress(String city, String locality, String street, String zipCode, String buildingNumber, Province province) {
+    public BranchAddress(String city,
+                         String locality,
+                         String street,
+                         String zipCode,
+                         String buildingNumber,
+                         Province province) {
         super(city, locality, street, zipCode, buildingNumber, province);
     }
 
-    public BranchAddress(String city, String locality, String street, String zipCode, String buildingNumber, String apartmentNumber, Province province) {
+    public BranchAddress(String city,
+                         String locality,
+                         String street,
+                         String zipCode,
+                         String buildingNumber,
+                         String apartmentNumber,
+                         Province province) {
         super(city, locality, street, zipCode, buildingNumber, apartmentNumber, province);
     }
 }

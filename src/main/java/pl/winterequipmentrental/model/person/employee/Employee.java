@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.winterequipmentrental.model.account.User;
 import pl.winterequipmentrental.model.address.EmployeeAddress;
@@ -17,8 +16,8 @@ import java.util.Set;
 
 @Entity
 @Getter
-@NoArgsConstructor
 @Table(name = "Employees")
+@Builder
 public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -74,7 +73,7 @@ public class Employee implements Serializable {
     private long addressId;
 
     @Setter
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_address")
     @JsonIgnoreProperties({"employees", "provinceId"})
     private EmployeeAddress address;
@@ -83,44 +82,4 @@ public class Employee implements Serializable {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"id", "employeeId", "employee"})
     private Set<EmployeePhone> employeePhones;
-
-    public Employee(String pesel,
-                    String email,
-                    Person person,
-                    Position position) {
-        this.pesel = pesel;
-        this.email = email;
-        this.person = person;
-        this.position = position;
-    }
-
-    public Employee(String pesel,
-                    String email,
-                    Person person,
-                    Contract contract,
-                    String contractNumber,
-                    Position position) {
-        this.pesel = pesel;
-        this.email = email;
-        this.person = person;
-        this.contract = contract;
-        this.contractNumber = contractNumber;
-        this.position = position;
-    }
-
-    public Employee(String pesel,
-                    String email,
-                    Person person,
-                    Contract contract,
-                    String contractNumber,
-                    Position position,
-                    EmployeeAddress address) {
-        this.pesel = pesel;
-        this.email = email;
-        this.person = person;
-        this.contract = contract;
-        this.contractNumber = contractNumber;
-        this.position = position;
-        this.address = address;
-    }
 }

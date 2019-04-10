@@ -8,10 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
 @Getter
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
 public abstract class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,7 +51,11 @@ public abstract class Address implements Serializable {
     @JsonIgnoreProperties("id")
     private Province province;
 
-    public Address(String city, String locality, String zipCode, String buildingNumber, Province province) {
+    public Address(String city,
+                   String locality,
+                   String zipCode,
+                   String buildingNumber,
+                   Province province) {
         this.city = city;
         this.locality = locality;
         this.zipCode = zipCode;
@@ -60,7 +63,12 @@ public abstract class Address implements Serializable {
         this.province = province;
     }
 
-    public Address(String city, String locality, String street, String zipCode, String buildingNumber, Province province) {
+    public Address(String city,
+                   String locality,
+                   String street,
+                   String zipCode,
+                   String buildingNumber,
+                   Province province) {
         this.city = city;
         this.locality = locality;
         this.street = street;
@@ -69,7 +77,13 @@ public abstract class Address implements Serializable {
         this.province = province;
     }
 
-    public Address(String city, String locality, String street, String zipCode, String buildingNumber, String apartmentNumber, Province province) {
+    public Address(String city,
+                   String locality,
+                   String street,
+                   String zipCode,
+                   String buildingNumber,
+                   String apartmentNumber,
+                   Province province) {
         this.city = city;
         this.locality = locality;
         this.street = street;

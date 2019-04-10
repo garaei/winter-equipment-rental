@@ -19,15 +19,30 @@ public class CustomerAddress extends Address {
     @JsonIgnore
     private Customer customer;
 
-    public CustomerAddress(String city, String locality, String zipCode, String buildingNumber, Province province) {
+    public CustomerAddress(String city,
+                           String locality,
+                           String zipCode,
+                           String buildingNumber,
+                           Province province) {
         super(city, locality, zipCode, buildingNumber, province);
     }
 
-    public CustomerAddress(String city, String locality, String street, String zipCode, String buildingNumber, Province province) {
+    public CustomerAddress(String city,
+                           String locality,
+                           String street,
+                           String zipCode,
+                           String buildingNumber,
+                           Province province) {
         super(city, locality, street, zipCode, buildingNumber, province);
     }
 
-    public CustomerAddress(String city, String locality, String street, String zipCode, String buildingNumber, String apartmentNumber, Province province) {
+    public CustomerAddress(String city,
+                           String locality,
+                           String street,
+                           String zipCode,
+                           String buildingNumber,
+                           String apartmentNumber,
+                           Province province) {
         super(city, locality, street, zipCode, buildingNumber, apartmentNumber, province);
     }
 }
