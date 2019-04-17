@@ -24,26 +24,11 @@ public class Role implements Serializable {
     @Column(name = "name", nullable = false, unique = true, length = 30)
     private String name;
 
-    @Setter
-    @Column(name = "description")
-    private String description;
-
     @ManyToMany(mappedBy = "roles", cascade = CascadeType.REFRESH)
     @JsonIgnore
     private Set<User> users;
 
     public Role(String name) {
         this.name = name;
-    }
-
-    public Role(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
-
-    public void addUser(User user) {
-        if (users == null)
-            users = new HashSet<>();
-        users.add(user);
     }
 }
