@@ -17,11 +17,7 @@ public interface PositionService {
 
     Set<String> findAllPositionNames();
 
-    void update(Position position);
-
-    void updateName(long id, String name);
-
-    void updateDescription(long id, String description);
+    Optional<Position> update(long id, Position position);
 
     void deleteById(long id);
 

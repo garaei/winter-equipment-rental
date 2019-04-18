@@ -8,7 +8,7 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -21,7 +21,6 @@ public class Position implements Serializable {
     private long id;
 
     @Setter
-    @NaturalId
     @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
 
@@ -32,7 +31,7 @@ public class Position implements Serializable {
 
     @OneToMany(mappedBy = "position")
     @JsonIgnore
-    private List<Employee> employees;
+    private Set<Employee> employees;
 
     public Position(String name) {
         this.name = name;

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.winterequipmentrental.exception.position.PositionNotFoundException;
+import pl.winterequipmentrental.exception.position.PositionNotUpdatedException;
 import pl.winterequipmentrental.model.person.employee.Position;
 import pl.winterequipmentrental.services.PositionService;
 
@@ -22,8 +24,8 @@ public class PositionController {
         this.positionService = positionService;
     }
 
-    @PostMapping
-    public ResponseEntity<Position> createPosition(@RequestBody final Position position) {
+    @PostMapping("/")
+    public ResponseEntity createPosition(@RequestBody final Position position) {
         Position result = positionService.save(position);
 
         URI location = ServletUriComponentsBuilder
@@ -36,20 +38,20 @@ public class PositionController {
     @GetMapping("/{id}")
     public ResponseEntity<Position> findPositionById(@PathVariable final long id) {
         Optional<Position> position = positionService.findById(id);
-        if (position.isPresent())
-            return ResponseEntity.ok(position.get());
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(position.orElseThrow(PositionNotFoundException::new));
     }
 
     @GetMapping
     public ResponseEntity<Position> findPositionByName(@RequestParam final String name) {
+        if (name.isBlank())
+            return ResponseEntity.badRequest().build();
+
         Optional<Position> position = positionService.findByName(name);
-        if (position.isPresent())
-            return ResponseEntity.ok(position.get());
-        return ResponseEntity.badRequest().build();
+
+        return ResponseEntity.ok(position.orElseThrow(PositionNotFoundException::new));
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<Set<Position>> findAllPosition() {
         return ResponseEntity.ok(positionService.findAll());
     }
@@ -60,25 +62,25 @@ public class PositionController {
     }
 
     @DeleteMapping("/{id}")
-    public void removePositionById(@PathVariable final long id) {
+    public ResponseEntity removePositionById(@PathVariable final long id) {
         positionService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{name}")
-    public void removePositionByName(@PathVariable final String name) {
+    @DeleteMapping
+    public ResponseEntity removePositionByName(@RequestParam final String name) {
         positionService.deleteByName(name);
-    }
-
-    @PutMapping
-    public ResponseEntity<Position> updatePosition(@PathVariable final Position position) {
-        positionService.update(position);
-        return ResponseEntity.ok(positionService.findById(position.getId()).orElse(null));
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Position> updateDescritpionPosition(@PathVariable final long id,
-                                                              @RequestParam final String description) {
-        positionService.updateDescription(id, description);
-        return ResponseEntity.ok(positionService.findById(id).orElse(null));
+    public ResponseEntity<Object> updatePosition(@RequestBody final Position position,
+                                                 @PathVariable final long id) {
+        if (!positionService.findById(id).isPresent())
+            return ResponseEntity.notFound().build();
+
+        Optional<Position> updatePosition = positionService.update(id, position);
+
+        return ResponseEntity.ok(updatePosition.orElseThrow(PositionNotUpdatedException::new));
     }
 }

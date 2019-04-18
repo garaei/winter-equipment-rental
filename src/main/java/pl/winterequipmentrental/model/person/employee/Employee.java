@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Tolerate;
 import pl.winterequipmentrental.model.account.User;
 import pl.winterequipmentrental.model.address.EmployeeAddress;
 import pl.winterequipmentrental.model.person.Person;
@@ -25,7 +26,7 @@ public class Employee implements Serializable {
     private long id;
 
     @Setter
-    @Column(name = "pesel", nullable = false, unique = true , length = 11)
+    @Column(name = "pesel", /*nullable = false,*/ unique = true , length = 11)
     private String pesel;
 
     @Setter
@@ -33,7 +34,7 @@ public class Employee implements Serializable {
     private String email;
 
     @Setter
-    @Column(name = "hired", nullable = false, columnDefinition = "BIT DEFAULT 0")
+    @Column(name = "hired", /*nullable = false,*/ columnDefinition = "BIT DEFAULT 0")
     private boolean hired;
 
     @Setter
@@ -60,11 +61,11 @@ public class Employee implements Serializable {
 
     @Setter
     @Column(name = "id_position", insertable =  false, updatable = false, nullable = false)
-    private String positionId;
+    private long positionId;
 
     @Setter
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "id_position", referencedColumnName = "name")
+    @JoinColumn(name = "id_position")
     @JsonIgnore
     private Position position;
 
@@ -82,4 +83,8 @@ public class Employee implements Serializable {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"id", "employeeId", "employee"})
     private Set<EmployeePhone> employeePhones;
+
+    @Tolerate
+    public Employee() {
+    }
 }

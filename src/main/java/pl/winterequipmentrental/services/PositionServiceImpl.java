@@ -51,40 +51,24 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     @Transactional
-    public void update(Position position) {
-        if (positionRepository.existsById(position.getId()))
-            positionRepository.update(
-                    position.getId(),
-                    position.getName(),
-                    position.getDescription()
-            );
-    }
-
-    @Override
-    @Transactional
-    public void updateName(long id, String name) {
-        if (positionRepository.existsById(id))
-            positionRepository.updateName(id, name);
-    }
-
-    @Override
-    @Transactional
-    public void updateDescription(long id, String description) {
-        if (positionRepository.existsById(id))
-            positionRepository.updateName(id, description);
+    public Optional<Position> update(long id, Position position) {
+         return positionRepository.findById(id)
+                .map(p -> {
+                    p.setName(position.getName());
+                    p.setDescription(position.getDescription());
+                    return positionRepository.save(p);
+                });
     }
 
     @Override
     @Transactional
     public void deleteById(long id) {
-        if (positionRepository.existsById(id))
-            positionRepository.deleteById(id);
+        positionRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     public void deleteByName(String name) {
-        if (positionRepository.existsByName(name))
-            positionRepository.deleteByName(name);
+        positionRepository.deleteByName(name);
     }
 }
