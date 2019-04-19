@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +13,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @Table(name = "Positions")
-public class Position implements Serializable {
+public class Position implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_position", nullable = false, unique = true, insertable = false, updatable = false)

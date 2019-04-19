@@ -13,12 +13,8 @@ import java.util.stream.Collectors;
 @Service
 public class PositionServiceImpl implements PositionService {
 
-    private PositionRepository positionRepository;
-
     @Autowired
-    public PositionServiceImpl(PositionRepository positionRepository) {
-        this.positionRepository = positionRepository;
-    }
+    private PositionRepository positionRepository;
 
     @Override
     @Transactional

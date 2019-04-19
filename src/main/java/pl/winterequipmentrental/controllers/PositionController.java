@@ -24,7 +24,7 @@ public class PositionController {
         this.positionService = positionService;
     }
 
-    @PostMapping("/")
+    @PostMapping({"/",""})
     public ResponseEntity createPosition(@RequestBody final Position position) {
         Position result = positionService.save(position);
 
@@ -52,12 +52,12 @@ public class PositionController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Set<Position>> findAllPosition() {
+    public ResponseEntity<Set<Position>> findAllPositions() {
         return ResponseEntity.ok(positionService.findAll());
     }
 
     @GetMapping("/names")
-    public ResponseEntity<Set<String>> findAllPositionName() {
+    public ResponseEntity<Set<String>> findAllPositionNames() {
         return ResponseEntity.ok(positionService.findAllPositionNames());
     }
 
@@ -67,7 +67,7 @@ public class PositionController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping({"/",""})
     public ResponseEntity removePositionByName(@RequestParam final String name) {
         positionService.deleteByName(name);
         return ResponseEntity.noContent().build();

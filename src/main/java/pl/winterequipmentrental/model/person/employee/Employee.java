@@ -26,7 +26,7 @@ public class Employee implements Serializable {
     private long id;
 
     @Setter
-    @Column(name = "pesel", /*nullable = false,*/ unique = true , length = 11)
+    @Column(name = "pesel", nullable = false, unique = true , length = 11)
     private String pesel;
 
     @Setter
@@ -34,7 +34,7 @@ public class Employee implements Serializable {
     private String email;
 
     @Setter
-    @Column(name = "hired", /*nullable = false,*/ columnDefinition = "BIT DEFAULT 0")
+    @Column(name = "hired", nullable = false, columnDefinition = "BIT DEFAULT 0")
     private boolean hired;
 
     @Setter
