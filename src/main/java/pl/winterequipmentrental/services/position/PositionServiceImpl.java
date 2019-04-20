@@ -1,4 +1,4 @@
-package pl.winterequipmentrental.services;
+package pl.winterequipmentrental.services.position;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

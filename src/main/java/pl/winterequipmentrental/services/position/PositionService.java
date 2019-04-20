@@ -1,4 +1,4 @@
-package pl.winterequipmentrental.services;
+package pl.winterequipmentrental.services.position;
 
 import pl.winterequipmentrental.model.person.employee.Position;
 

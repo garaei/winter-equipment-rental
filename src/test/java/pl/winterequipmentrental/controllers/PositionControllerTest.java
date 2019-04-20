@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 import pl.winterequipmentrental.model.person.employee.Position;
-import pl.winterequipmentrental.services.PositionServiceImpl;
+import pl.winterequipmentrental.services.position.PositionServiceImpl;
 
 import java.util.*;
 
@@ -26,6 +26,8 @@ public class PositionControllerTest {
     private final static String SECURITY_GUARD_DESCRIPTION = "Security guard description";
     private final static String NO_NAME = "NO_NAME";
     private final static Set<String> NAMES_ARRAY = new HashSet<>(Arrays.asList(BOSS_NAME, PHYSICAL_WORKER_NAME, SECURITY_GUARD_NAME));
+    private final static Position p1 = new Position(BOSS_NAME, BOSS_DESCRIPTION);
+    private final static Position p2 = new Position(PHYSICAL_WORKER_NAME, PHYSICAL_WORKER_DESCRIPTION);
 
     @InjectMocks
     private PositionController positionController;
@@ -37,14 +39,12 @@ public class PositionControllerTest {
     public void init() {
         MockitoAnnotations.initMocks(this);
 
-        Position p1 = new Position(BOSS_NAME, BOSS_DESCRIPTION);
-        Position p2 = new Position(PHYSICAL_WORKER_NAME, PHYSICAL_WORKER_DESCRIPTION);
-
         when(positionService.findByName(BOSS_NAME)).thenReturn(Optional.of(p1));
         when(positionService.findAll()).thenReturn(new HashSet<>(Arrays.asList(p1, p2)));
         when(positionService.findByName("")).thenReturn(null);
         when(positionService.findByName(NO_NAME)).thenReturn(null);
         when(positionService.findAllPositionNames()).thenReturn(NAMES_ARRAY);
+        when(positionService.save(p1)).thenReturn(null);
     }
 
 
@@ -201,5 +201,15 @@ public class PositionControllerTest {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @Test
+    public void createPosition_ShouldStatusEquals201() {
+        ResponseEntity response = createPosition();
+        assertEquals(201, response.getStatusCodeValue());
+    }
 
+    private ResponseEntity createPosition() {
+        ResponseEntity position = positionController.createPosition(p1);
+        verify(positionService).save(p1);
+        return position;
+    }
 }

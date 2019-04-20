@@ -7,7 +7,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.winterequipmentrental.exception.position.PositionNotFoundException;
 import pl.winterequipmentrental.exception.position.PositionNotUpdatedException;
 import pl.winterequipmentrental.model.person.employee.Position;
-import pl.winterequipmentrental.services.PositionService;
+import pl.winterequipmentrental.services.position.PositionService;
 
 import java.net.URI;
 import java.util.Optional;
