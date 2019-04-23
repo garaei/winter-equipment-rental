@@ -21,6 +21,8 @@ public interface EmployeeService {
 
     Optional<Employee> findEmployeeByNumberPhone(String numberPhone);
 
+    Set<Employee> findEmployeesWhoAreEmploymentBetween(int from, int to);
+
     Set<Employee> findEmployeesByPositionId(long positionId);
 
     Set<Employee> findEmployeesByPositionName(String positionName);
@@ -29,7 +31,7 @@ public interface EmployeeService {
 
     Optional<Employee> updateEmplyee(Employee employee, long idEmployee);
 
-    Optional<Employee> updateEmplyeeHired(boolean hired);
+    Optional<Employee> updateEmplyeeHired(boolean hired, long idEmployee);
 
     void deleteById(long id);
 

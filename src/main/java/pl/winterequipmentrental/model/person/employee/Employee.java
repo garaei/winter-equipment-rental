@@ -13,6 +13,7 @@ import pl.winterequipmentrental.model.phone.EmployeePhone;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -40,6 +41,11 @@ public class Employee implements Serializable {
     @Setter
     @Embedded
     private Person person;
+
+    @Setter
+    @Column(name = "recently_date_employment")
+    @Temporal(TemporalType.DATE)
+    private Date recentlyDateEmployment;
 
     @Setter
     @OneToOne(mappedBy = "employee", cascade = CascadeType.REFRESH)

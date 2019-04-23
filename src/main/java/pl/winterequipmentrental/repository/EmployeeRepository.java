@@ -34,4 +34,8 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
                          @Param("hired") boolean hired);
 
     Employee findByAddress(Address address);
+
+    void deleteByPersonIDNumber(String idNumber);
+
+    Set<Employee> findEmployeesByAddressId(long idAddress);
 }
