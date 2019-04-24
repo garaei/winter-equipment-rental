@@ -53,8 +53,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Optional<Employee> findEmployeeByNumberPhone(String numberPhone) {
-        return Optional.empty();
+    public Set<Employee> findEmployeeByNumbersPhone(String[] numbersPhone) {
+        for (String number: numbersPhone) {
+            //TODO ealier should implements employeePhone repository
+        }
+        return null;
     }
 
     @Override
@@ -87,6 +90,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Set<Employee> findEmployeesByPositionName(String positionName) {
+        positionName = positionName.toUpperCase();
         return employeeRepository.findEmployeesByPositionName(positionName);
     }
 

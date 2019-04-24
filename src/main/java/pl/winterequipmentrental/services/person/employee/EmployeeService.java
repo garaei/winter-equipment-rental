@@ -19,7 +19,7 @@ public interface EmployeeService {
 
     Optional<Employee> findEmployeeByConctractNumber(String contractNumber);
 
-    Optional<Employee> findEmployeeByNumberPhone(String numberPhone);
+    Set<Employee> findEmployeeByNumbersPhone(String[] numbersPhone);
 
     Set<Employee> findEmployeesWhoAreEmploymentBetween(int from, int to);
 

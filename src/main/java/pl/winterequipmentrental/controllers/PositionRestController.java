@@ -15,12 +15,12 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/positions")
-public class PositionController {
+public class PositionRestController {
 
     private PositionService positionService;
 
     @Autowired
-    public PositionController(PositionService positionService) {
+    public PositionRestController(PositionService positionService) {
         this.positionService = positionService;
     }
 

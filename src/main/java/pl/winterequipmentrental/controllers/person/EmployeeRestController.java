@@ -9,8 +9,7 @@ import pl.winterequipmentrental.model.person.employee.Employee;
 import pl.winterequipmentrental.services.person.employee.EmployeeService;
 
 import java.net.URI;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/employees")
@@ -42,5 +41,65 @@ public class EmployeeRestController {
         return ResponseEntity.ok(employees);
     }
 
+    @GetMapping(params = "pesel")
+    public ResponseEntity<Employee> findEmployeeByPesel(@RequestParam String pesel) {
+        Optional<Employee> employee = employeeService.findEmployeeByPesel(pesel);
+        return ResponseEntity.ok(employee.orElseThrow(EmployeeNotFoundException::new));
+    }
+
+    @GetMapping(params = "person_id_number")
+    public ResponseEntity<Employee> findEmployeeByPersonIdNumber(@RequestParam("person_id_number") String personIdNumber) {
+        Optional<Employee> employee = employeeService.findEmployeeByPersonIdNumber(personIdNumber);
+        return ResponseEntity.ok(employee.orElseThrow(EmployeeNotFoundException::new));
+    }
+
+    @GetMapping(params = "contract_number")
+    public ResponseEntity<Employee> findEmployeeByConctractNumber(@RequestParam("contract_number") String contractNumber) {
+        Optional<Employee> employee = employeeService.findEmployeeByConctractNumber(contractNumber);
+        return ResponseEntity.ok(employee.orElseThrow(EmployeeNotFoundException::new));
+    }
+
+    @GetMapping(params = "numbers_phone")
+    public ResponseEntity<Set<Employee>> findEmployeeByNumbersPhone(@RequestParam("numbers_phone") String[] numbersPhone) {
+        Set<Employee> employees = employeeService.findEmployeeByNumbersPhone(numbersPhone);
+        return ResponseEntity.ok(employees);
+    }
+
+    @GetMapping(params = {"from", "to"})
+    public ResponseEntity<Set<Employee>> findEmployeesWhoAreEmploymentBetween(@RequestParam int from,
+                                                                              @RequestParam int to) {
+        Set<Employee> employees = employeeService.findEmployeesWhoAreEmploymentBetween(from, to);
+        return ResponseEntity.ok(employees);
+    }
+
+    @GetMapping("/positions/{id}")
+    public ResponseEntity<Set<Employee>> findEmployeeByPositionId(@PathVariable long id) {
+        Set<Employee> employees = employeeService.findEmployeesByPositionId(id);
+        return ResponseEntity.ok(employees);
+    }
+
+    @GetMapping(value = "/positions", params = "name")
+    public ResponseEntity<Set<Employee>> findEmployeeByPositionName(@RequestParam String name) {
+        Set<Employee> employees = employeeService.findEmployeesByPositionName(name);
+        return ResponseEntity.ok(employees);
+    }
+
+    @GetMapping(value = "/address/{id}")
+    public ResponseEntity<Set<Employee>> findEmployeeByAddressId(@PathVariable long id) {
+        Set<Employee> employees = employeeService.findEmployeesByAddressId(id);
+        return ResponseEntity.ok(employees);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteEmployeeById(@PathVariable final long id) {
+        employeeService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping(params = "person_id")
+    public ResponseEntity<Object> deleteEmployeeById(@RequestParam("person_id") final String personIdNumber) {
+        employeeService.deleteByPersonIdNumber(personIdNumber);
+        return ResponseEntity.noContent().build();
+    }
 }
 

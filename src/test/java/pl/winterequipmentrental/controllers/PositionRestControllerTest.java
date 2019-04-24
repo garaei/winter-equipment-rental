@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class PositionControllerTest {
+public class PositionRestControllerTest {
 
     private final static String BOSS_NAME = "BOSS";
     private final static String BOSS_DESCRIPTION = "Boss description";
@@ -30,7 +30,7 @@ public class PositionControllerTest {
     private final static Position p2 = new Position(PHYSICAL_WORKER_NAME, PHYSICAL_WORKER_DESCRIPTION);
 
     @InjectMocks
-    private PositionController positionController;
+    private PositionRestController positionController;
 
     @Mock
     PositionServiceImpl positionService;
