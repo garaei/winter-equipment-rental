@@ -101,5 +101,14 @@ public class EmployeeRestController {
         employeeService.deleteByPersonIdNumber(personIdNumber);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping(value = "/{id}", params = "hired")
+    public ResponseEntity<Employee> updateHired(@PathVariable long id,
+                                                @RequestParam boolean hired) {
+        Optional<Employee> employee = employeeService.updateEmployeeHired(hired, id);
+        return ResponseEntity.ok(employee.orElseThrow(EmployeeNotFoundException::new));
+    }
+
+    
 }
 

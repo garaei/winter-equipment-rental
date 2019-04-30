@@ -100,7 +100,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Optional<Employee> updateEmplyee(Employee employee, long idEmployee) {
+    public Optional<Employee> updateEmployee(Employee employee, long idEmployee) {
         return employeeRepository.findById(idEmployee)
                 .map(e -> {
                     e.setPosition(employee.getPosition());
@@ -114,7 +114,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Optional<Employee> updateEmplyeeHired(boolean hired, long idEmployee) {
+    public Optional<Employee> updateEmployeeHired(boolean hired, long idEmployee) {
         if (resourceFound(idEmployee)) {
             employeeRepository.updateHired(idEmployee, hired);
             return employeeRepository.findById(idEmployee);

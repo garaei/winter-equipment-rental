@@ -1,10 +1,12 @@
 package pl.winterequipmentrental.services.person.employee;
 
+import org.springframework.stereotype.Service;
 import pl.winterequipmentrental.model.person.employee.Employee;
 
 import java.util.Optional;
 import java.util.Set;
 
+@Service
 public interface EmployeeService {
 
     Employee createEmployee(Employee employee);
@@ -29,9 +31,9 @@ public interface EmployeeService {
 
     Set<Employee> findEmployeesByAddressId(long addressId);
 
-    Optional<Employee> updateEmplyee(Employee employee, long idEmployee);
+    Optional<Employee> updateEmployee(Employee employee, long idEmployee);
 
-    Optional<Employee> updateEmplyeeHired(boolean hired, long idEmployee);
+    Optional<Employee> updateEmployeeHired(boolean hired, long idEmployee);
 
     void deleteById(long id);
 
